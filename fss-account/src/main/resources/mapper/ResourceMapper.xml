@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.fss.mapper.ResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zx.fss.account.Resource">
+        <id column="resource_id" property="resourceId" />
+        <result column="resource_url" property="resourceUrl" />
+        <result column="resource_name" property="resourceName" />
+        <result column="resource_desc" property="resourceDesc" />
+        <result column="menu_id" property="menuId" />
+        <result column="enabled_flag" property="enabledFlag" />
+        <result column="creation_date" property="creationDate" />
+        <result column="created_by" property="createdBy" />
+        <result column="last_update_date" property="lastUpdateDate" />
+        <result column="last_updated_by" property="lastUpdatedBy" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        resource_id, resource_url, resource_name, resource_desc, menu_id, enabled_flag, creation_date, created_by, last_update_date, last_updated_by, is_deleted
+    </sql>
+
+
+</mapper>

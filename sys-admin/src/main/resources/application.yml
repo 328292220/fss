@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: sys-admin
+  resources:
+    static-locations: classpath:/static/
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+    static-path-pattern: /static/**
+logging:
+  level:
+    root: debug
+
+
