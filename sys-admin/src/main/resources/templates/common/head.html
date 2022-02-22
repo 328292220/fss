@@ -63,4 +63,15 @@
         </dl>
     </dd>
 </th:block>
+<!-- 动态读取加载系统菜单 -->
+<th:block th:fragment="sysMune(menuList)">
+    <dd th:each="menu,iterStat : ${menuList}">
+        <a th:text="${menu.shortcutMenuName}"
+           th:data-url="${menu.shortcutMenuPath.indexOf('http') == -1 ? #request.getContextPath() + menu.shortcutMenuPath : menu.shortcutMenuPath}"
+           th:data-id="${menu.shortcutMenuId}" class="huanzi-menu" href="javascript:;">XXX菜单</a>
+        <dl class="layui-nav-child" style="position:unset;" th:if="${#lists.size(menu.children)} > 0">
+            <th:block th:include="this::shortcutMenu(${menu.children})"></th:block>
+        </dl>
+    </dd>
+</th:block>
 </html>

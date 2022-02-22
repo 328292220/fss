@@ -1,5 +1,6 @@
 
 function post(Obj,keyName,url,param){
+    console.log(keyName+",url="+url);
     $.ajax({
         type: 'POST',
         url: ctx + url,
@@ -12,6 +13,7 @@ function post(Obj,keyName,url,param){
             console.log(data);
             if (data.code == 200) {
                 Obj[keyName] = data.data;
+                console.log(Obj[keyName]);
             }else if(data.code == 11003){
                 layer.msg(data.msg, {icon: 2,time: 2000}, function () {
                     window.location.href = "/";
@@ -36,7 +38,7 @@ new Vue({
     el: '#indexPage',
     data :{
         currentUser: null,
-        menus: null,
+        menu: null,
     },
     methods:{
         // getCurrentUser:function(){
@@ -46,7 +48,7 @@ new Vue({
     mounted:function(){
         // this.getCurrentUser();
         post(this,"currentUser",url_currentUser,null);
-        post(this,"menus",url_menus,null);
+        post(this,"menu",url_menus,null);
     },
 
 })

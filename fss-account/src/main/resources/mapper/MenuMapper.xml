@@ -66,6 +66,12 @@
         select
             <include refid="menu"/>
         from fss_menu m
+        where m.is_deleted = 0
+        and m.enabled_flag = 'Y'
+        and m.parent_menu_id = #{menu_id}
+
+        <!--
+        from fss_menu m
         left join fss_resource res on res.menu_id = m.menu_id
         left join fss_role_resource rr on rr.resource_id = res.resource_id
         left join fss_user_role ur on ur.role_id = rr.role_id
@@ -76,7 +82,7 @@
         and res.is_deleted = 0
         and res.enabled_flag = 'Y'
         and u.user_id = #{userId}
-
+        -->
     </select>
 
 
