@@ -1,5 +1,0 @@
-com\zx\fss\feign\config\OpenFeignConfiguration.class
-com\zx\fss\feign\service\impl\AccountServiceHystrix.class
-com\zx\fss\feign\exception\ClientException.class
-com\zx\fss\feign\config\OpenFeignRequestInterceptor.class
-com\zx\fss\feign\service\FssAccountService.class
