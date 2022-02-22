@@ -26,6 +26,14 @@ public enum ResultCode implements IResultCode {
 	 */
 	NOT_FOUND(404, "服务未找到"),
 	/**
+	 * 服务未找到
+	 */
+	NOT_ALLOW (405, "不允许访问"),
+	/**
+	 * 服务未找到
+	 */
+	ERROR_CONTENT_TYPE (415, "content-type有问题"),
+	/**
 	 * 服务异常
 	 */
 	ERROR(500, "服务异常"),
@@ -38,6 +46,10 @@ public enum ResultCode implements IResultCode {
 	 * 服务不可用
 	 */
 	SERVICE_UNAVAILABLE(503, "服务不可用"),
+	/**
+	 * 服务不可用返回的包体是一个jsonobject，并不是规范的错误包体
+	 */
+	ERROR_RESPONSE_BODY(3000, "服务返回不是规范的错误包体"),
 	/**
 	 * 参数错误
 	 */
@@ -65,7 +77,7 @@ public enum ResultCode implements IResultCode {
 	/**
 	 * 长时间未操作，自动退出
 	 */
-	USER_LOGIN_TIMEOUT(11003, "长时间未操作，自动退出"),
+	USER_LOGIN_TIMEOUT(11003, "暂未登录或token已经过期"),
 	/**
 	 * 用户被禁11005用
 	 */

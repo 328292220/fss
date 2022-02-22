@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
@@ -195,15 +196,50 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(jdbcTokenStore())//token存储方式默认InMemoryTokenStore,这里用数据库
-                .authenticationManager(authenticationManager)
-                //登陆时grant_type = password 的会进到这个业务
-                .userDetailsService(userDetailsService) //配置加载用户信息的服务,不指定会默认去找实现了UserDetailsService的类
-                .accessTokenConverter(jwtAccessTokenConverter())
-                .tokenEnhancer(getTokenEnhancerChain())//设置token增强器，可以添加自己的增强器
-                .tokenGranter(getTokenGranter(endpoints));//设置授权验证模式，可以添加自己的授权模式
+//        endpoints.tokenStore(jdbcTokenStore())//token存储方式默认InMemoryTokenStore,这里用数据库
+//                .authenticationManager(authenticationManager)
+//                //登陆时grant_type = password 的会进到这个业务
+//                .userDetailsService(userDetailsService) //配置加载用户信息的服务,不指定会默认去找实现了UserDetailsService的类
+//                //.accessTokenConverter(jwtAccessTokenConverter())//jwtAccessTokenConverter是一种token增强器，在下面已经添加
+//                .tokenEnhancer(getTokenEnhancerChain())//设置token增强器，可以添加自己的增强器
+//                .tokenGranter(getTokenGranter(endpoints));//设置授权验证模式，可以添加自己的授权模式
+
+        endpoints.userDetailsService(userDetailsService) //配置加载用户信息的服务,不指定会默认去找实现了UserDetailsService的类
+                .tokenGranter(getTokenGranter(endpoints))//设置授权验证模式，可以添加自己的授权模式
+                .tokenServices(tokenServices());// token服务的一个描述，可以认为是token生成细节的描述，比如有效时间多少等
+
     }
 
+    private DefaultTokenServices tokenServices(){
+        // 使用默认实现
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+
+        // 是否支持刷新令牌
+        tokenServices.setSupportRefreshToken(Boolean.TRUE);
+        //是否重复使用刷新令牌（直到过期）
+        tokenServices.setReuseRefreshToken(Boolean.TRUE);
+        // 设置令牌有效时间（一般设置为2个小时），默认12小时
+        tokenServices.setAccessTokenValiditySeconds(600); // access_token就是我们请求资源需要携带的令牌
+        // 设置刷新令牌的有效时间，默认3天
+        tokenServices.setRefreshTokenValiditySeconds(259200);
+
+        //设置客户端,从客户端获取信息如token过期时间、和刷新时间，这个优先级高于上面的过期时间
+        tokenServices.setClientDetailsService(jdbcClientDetailsService());
+
+        //存储方式
+        //tokenServices.setTokenStore(jdbcTokenStore());
+        //tokenServices.setTokenStore(redisTokenStore());
+        //tokenServices.setTokenStore(tokenStore());
+        tokenServices.setTokenStore(jwtTokenStore(jwtAccessTokenConverter()));//每次登录，都是新的token，过期时间重置
+        // token增强链
+        tokenServices.setTokenEnhancer(getTokenEnhancerChain());
+        //身份认证管理器
+        tokenServices.setAuthenticationManager(authenticationManager);
+
+        return tokenServices;
+
+
+    }
 
     /**
      * 返回 循环其委托增强器的复合令牌增强器。

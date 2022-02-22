@@ -5,6 +5,7 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -84,6 +85,9 @@ public class Menu implements Serializable {
     @ApiModelProperty(value = "是否未删除")
     @TableField("is_deleted")
     private Integer isDeleted;
+
+    @TableField(exist = false)
+    private List<Menu> children;
 
 
 }

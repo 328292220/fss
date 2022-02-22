@@ -21,6 +21,27 @@
     <sql id="Base_Column_List">
         resource_id, resource_url, resource_name, resource_desc, menu_id, enabled_flag, creation_date, created_by, last_update_date, last_updated_by, is_deleted
     </sql>
+    <select id="getResourcesByUserId" resultMap="BaseResultMap">
+        select resource_id      as resourceId,
+               resource_url     as resourceUrl,
+               resource_name    as resourceName,
+               resource_desc    as resourceDesc,
+               menu_id          as menuId,
+               enabled_flag     as enabledFlag,
+               creation_date    as creationDate,
+               created_by       as createdBy,
+               last_update_date as lastUpdateDate,
+               last_updated_by  as lastUpdatedBy,
+               is_deleted       as isDeleted
+        from fss_resource res
+        left join fss_role_resource rr on rr.resource_id = res.resource_id
+        left join fss_user_role ur on ur.role_id = rr.role_id
+        left join fss_user u on u.user_id = ur.user_id
+        where res.is_deleted = 0
+        and res.enabled_flag = 'Y'
+        and u.user_id = #{userId}
+
+    </select>
 
 
 </mapper>

@@ -30,14 +30,14 @@
             <div class="layui-logo"><img th:src='${sys.sysLogo}' class="layui-nav-img"/> <span th:text="${sys.sysName}"></span></div>
             <ul class="layui-nav layui-layout-left">
                 <!-- 动态读取加载用户快捷菜单 -->
-                <li class="layui-nav-item" th:each="menu,iterStat : ${shortcutMenuList}">
+                <!--<li class="layui-nav-item" th:each="menu,iterStat : ${shortcutMenuList}">
                     <a th:text="${menu.shortcutMenuName}"
                        th:data-url="${menu.shortcutMenuPath.indexOf('http') == -1 ? #request.getContextPath() + menu.shortcutMenuPath : menu.shortcutMenuPath}"
                        th:data-id="${menu.shortcutMenuId}" class="huanzi-menu" href="javascript:;">XXX菜单</a>
                     <dl class="layui-nav-child" th:if="${#lists.size(menu.children)} > 0">
                         <th:block th:include="common/head::shortcutMenu(${menu.children})"></th:block>
                     </dl>
-                </li>
+                </li>-->
             </ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
@@ -51,7 +51,7 @@
                         <dd><a class="huanzi-menu" th:data-url="${#request.getContextPath()} + '/user/shortcMenu'" data-id="shortcMenu" href="javascript:;">个性菜单</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a id="loginOut">退出</a></li>
+                <li class="layui-nav-item"><a id="loginOut"  style="cursor: pointer">退出</a></li>
             </ul>
         </div>
 

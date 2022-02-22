@@ -1,7 +1,9 @@
 package com.zx.fss.mapper;
 
-import com.zx.fss.account.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zx.fss.account.Menu;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 
+    Menu getMenusByUserId(Long userId);
 }

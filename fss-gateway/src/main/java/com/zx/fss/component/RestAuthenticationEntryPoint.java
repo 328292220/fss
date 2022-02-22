@@ -22,9 +22,13 @@ import java.nio.charset.Charset;
  */
 @Component
 public class RestAuthenticationEntryPoint implements ServerAuthenticationEntryPoint {
+    private static final String ALL = "*";
+
+    private static final String MAX_AGE = "3600L";
     @Override
     public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException e) {
         ServerHttpResponse response = exchange.getResponse();
+        //ServerHttpResponse response = response(exchange);
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         String body= JSONUtil.toJsonStr(Result.fail(ResultCode.USER_LOGIN_TIMEOUT));

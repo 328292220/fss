@@ -17,4 +17,6 @@ public interface ResourceService extends IService<Resource> {
 
     Map<String, Object> getResourceRolesMap();
 
+    Map<String, Object> menus();
+
 }

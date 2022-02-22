@@ -96,9 +96,8 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         });
         Mono<Boolean> role_admin = map.any(roleId -> {
             log.info("roleId=====:" + roleId);
-            log.info("roleId=====:" + roleId);
-            log.info("roleId=====:" + roleId);
             if (roleId.equals("ROLE_ADMIN")) {
+                //如果时管理员全部通过，可以访问任何请求资源
                 return true;
             }
             return authorities.contains(roleId);

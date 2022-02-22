@@ -31,4 +31,10 @@ public class ResourceController {
         return Result.data(map);
     }
 
+    @RequestMapping("/menus")
+    Result menus(){
+        Map<String,Object> map = resourceService.menus();
+        return Result.data(map);
+    }
+
 }

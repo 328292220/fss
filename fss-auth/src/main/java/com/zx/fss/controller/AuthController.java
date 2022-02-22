@@ -25,8 +25,8 @@ public class AuthController {
     @Autowired
     private TokenEndpoint tokenEndpoint;
 
-    @Autowired
-    private JdbcTokenStore jdbcTokenStore;
+//    @Autowired
+//    private JdbcTokenStore jdbcTokenStore;
 
     /**
      * Oauth2登录认证

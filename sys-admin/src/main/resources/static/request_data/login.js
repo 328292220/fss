@@ -14,7 +14,7 @@ layui.use(['layer','form'], function () {
 });
 
 function encrypt(word) {
-    var publicKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC9UcbGHLrLGbX1HA1BP8jZzMkXdC2yNLmmwfKq2IJnJ5oG9gKKApkIvzDr9EBVNWh4UKYW+uXoIyRUg3iKjS/d+lu16AJ/Yz9z5TJM3KM6AH5/kMXj1XycazZk8PsgikNsEyIOp0q5DvDgOq0vDqtmh5IXiRWc1B6GWvLxj+BnAwIDAQAB";
+    const publicKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC9UcbGHLrLGbX1HA1BP8jZzMkXdC2yNLmmwfKq2IJnJ5oG9gKKApkIvzDr9EBVNWh4UKYW+uXoIyRUg3iKjS/d+lu16AJ/Yz9z5TJM3KM6AH5/kMXj1XycazZk8PsgikNsEyIOp0q5DvDgOq0vDqtmh5IXiRWc1B6GWvLxj+BnAwIDAQAB";
     const encrypt = new JSEncrypt();
     encrypt.setPublicKey(publicKey);
     let password = encrypt.encrypt(word);// rac加密后的字符串
@@ -43,6 +43,7 @@ function formSubmit() {
         data: params,
         success: function (data) {
             if (data.code == 200) {
+                debugger
                 console.log(data.data.token);
                 layer.msg(data.msg, {icon: 1,time: 1000}, function () {
                     sessionStorage.setItem("token","Bearer "+data.data.token);

@@ -6,6 +6,7 @@ import com.zx.fss.account.Resource;
 import com.zx.fss.account.Role;
 import com.zx.fss.account.RoleResource;
 import com.zx.fss.account.User;
+import com.zx.fss.holder.LoginUserHolder;
 import com.zx.fss.mapper.ResourceMapper;
 import com.zx.fss.service.ResourceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -31,8 +32,11 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> implements ResourceService {
 
-    RoleResourceService roleResourceService;
-    RoleService roleService;
+    private LoginUserHolder loginUserHolder;
+
+    private RoleResourceService roleResourceService;
+
+    private RoleService roleService;
 
     @Override
     public Map<String, Object> getResourceRolesMap() {
@@ -52,7 +56,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
             roleResourceList.stream().forEach(roleResource -> {
                 //获取角色
                 LambdaQueryWrapper<Role> rWrapper = new LambdaQueryWrapper<>();
-                rWrapper.eq(Role::getRoleId, roleResource.getResourceId());
+                rWrapper.eq(Role::getRoleId, roleResource.getRoleId());
                 List<Role> roleList = roleService.list(rWrapper);
                 List<String> roles = roleList.stream().map(one -> one.getEname()).collect(Collectors.toList());
                 if(roles.size() > 0){
@@ -63,5 +67,14 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         });
 
         return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> menus() {
+        User user = loginUserHolder.getCurrentUser();
+        //通过用户获取该用户拥有的菜单资源
+        List<Resource> resourceList = baseMapper.getResourcesByUserId(user.getUserId());
+
+        return null;
     }
 }

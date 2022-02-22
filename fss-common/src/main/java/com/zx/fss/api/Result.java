@@ -69,6 +69,10 @@ public class Result<T> implements Serializable {
 	 * @param <T>        泛型标识
 	 * @return ApiResult
 	 */
+	public static <T> Result<T> success() {
+		return new Result<>(ResultCode.SUCCESS);
+	}
+
 	public static <T> Result<T> success(IResultCode resultCode) {
 		return new Result<>(resultCode);
 	}
@@ -115,6 +119,9 @@ public class Result<T> implements Serializable {
 
 	public static <T> Result<T> fail(IResultCode resultCode, String msg) {
 		return new Result<>(resultCode, msg);
+	}
+	public static <T> Result<T> fail(IResultCode resultCode, T t) {
+		return new Result<>(resultCode, t);
 	}
 
 	public static <T> Result<T> condition(boolean flag) {

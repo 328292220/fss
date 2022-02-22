@@ -3,6 +3,7 @@ package com.zx.fss.mapper;
 import com.zx.fss.account.Resource;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,4 +16,5 @@ import java.util.Map;
  */
 public interface ResourceMapper extends BaseMapper<Resource> {
 
+    List<Resource> getResourcesByUserId(Long userId);
 }
