@@ -1,0 +1,8 @@
+com\zx\fss\account\UserRole.class
+com\zx\fss\exception\ResponseResultBodyAdvice.class
+com\zx\fss\account\Resource.class
+com\zx\fss\account\Role.class
+com\zx\fss\account\RoleResource.class
+com\zx\fss\account\Menu.class
+com\zx\fss\account\User.class
+com\zx\fss\annotation\ResponseResultBody.class

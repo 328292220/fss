@@ -1,0 +1,9 @@
+server:
+  port: 9003
+  servlet:
+    context-path: /account
+spring:
+  profiles:
+    active: dev
+  application:
+    name: fss-account

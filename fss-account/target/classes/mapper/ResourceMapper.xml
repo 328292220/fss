@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.fss.mapper.ResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zx.fss.account.Resource">
+        <id column="resource_id" property="resourceId" />
+        <result column="resource_url" property="resourceUrl" />
+        <result column="resource_name" property="resourceName" />
+        <result column="resource_desc" property="resourceDesc" />
+        <result column="menu_id" property="menuId" />
+        <result column="enabled_flag" property="enabledFlag" />
+        <result column="creation_date" property="creationDate" />
+        <result column="created_by" property="createdBy" />
+        <result column="last_update_date" property="lastUpdateDate" />
+        <result column="last_updated_by" property="lastUpdatedBy" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        resource_id, resource_url, resource_name, resource_desc, menu_id, enabled_flag, creation_date, created_by, last_update_date, last_updated_by, is_deleted
+    </sql>
+    <select id="getResourcesByUserId" resultMap="BaseResultMap">
+        select resource_id      as resourceId,
+               resource_url     as resourceUrl,
+               resource_name    as resourceName,
+               resource_desc    as resourceDesc,
+               menu_id          as menuId,
+               enabled_flag     as enabledFlag,
+               creation_date    as creationDate,
+               created_by       as createdBy,
+               last_update_date as lastUpdateDate,
+               last_updated_by  as lastUpdatedBy,
+               is_deleted       as isDeleted
+        from fss_resource res
+        left join fss_role_resource rr on rr.resource_id = res.resource_id
+        left join fss_user_role ur on ur.role_id = rr.role_id
+        left join fss_user u on u.user_id = ur.user_id
+        where res.is_deleted = 0
+        and res.enabled_flag = 'Y'
+        and u.user_id = #{userId}
+
+    </select>
+
+
+</mapper>

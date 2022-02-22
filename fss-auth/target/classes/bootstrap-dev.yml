@@ -1,0 +1,41 @@
+spring:
+  cloud:
+    # NACOS服务器配置
+    nacos:
+      config:
+        namespace: ${nacos.namespace}
+        group: ${spring.profiles.active}
+        server-addr: ${nacos.server-addr}
+        username: ${nacos.username}
+        password: ${nacos.password}
+        file-extension: yml
+        extension-configs:
+          - dataId: fss-jwt-${spring.profiles.active}.yml
+            group: ${spring.profiles.active}
+            refresh: true
+          - dataId: fss-redis-${spring.profiles.active}.yml
+            group: ${spring.profiles.active}
+            refresh: true
+          - dataId: fss-datasource-${spring.profiles.active}.yml
+            group: ${spring.profiles.active}
+            refresh: true
+      discovery:
+        namespace: ${nacos.namespace}
+        group: ${spring.profiles.active}
+        server-addr: ${nacos.server-addr}
+        username: ${nacos.username}
+        password: ${nacos.password}
+
+# Nacos配置
+nacos:
+  namespace: d038fa42-7ca1-4d55-9a35-97873f5109c9
+  server-addr: 127.0.0.1:8848
+  username: nacos
+  password: nacos
+
+logging:
+  level:
+    #root: debug
+    #com.zx.fss.auth: debug
+    com.zx.fss.feign.service: debug
+    #org.springframework.security: debug

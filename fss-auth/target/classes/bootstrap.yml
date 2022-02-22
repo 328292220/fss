@@ -1,0 +1,30 @@
+server:
+  port: 9002
+  servlet:
+    context-path: /auth
+spring:
+  profiles:
+    active: dev
+  application:
+    name: fss-auth
+
+#springboot actuator 监控：https://www.cnblogs.com/ming-blogs/p/10697033.html
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#jwt
+#encrypt:
+#  key-store:
+#    location: classpath:/fss.jks
+#    secret: zhangxin123
+#    alias: zhangxin
+#    password: zhangxin123
+
+#  datasource:
+#    username: root
+#    password: root
+#    url: jdbc:mysql://192.168.3.11:3306/oauth2?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    type: com.alibaba.druid.pool.DruidDataSource

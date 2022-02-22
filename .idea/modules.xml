@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/fss-account/fss-account.iml" filepath="$PROJECT_DIR$/fss-account/fss-account.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fss-auth/fss-auth.iml" filepath="$PROJECT_DIR$/fss-auth/fss-auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fss-common/fss-common.iml" filepath="$PROJECT_DIR$/fss-common/fss-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fss-entity/fss-entity.iml" filepath="$PROJECT_DIR$/fss-entity/fss-entity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fss-feign/fss-feign.iml" filepath="$PROJECT_DIR$/fss-feign/fss-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fss-gateway/fss-gateway.iml" filepath="$PROJECT_DIR$/fss-gateway/fss-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fss2.iml" filepath="$PROJECT_DIR$/fss2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sys-admin/sys-admin.iml" filepath="$PROJECT_DIR$/sys-admin/sys-admin.iml" />
+    </modules>
+  </component>
+</project>
