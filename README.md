@@ -30,6 +30,10 @@
   git rm -r --cached .
   git add .
   git commit -m 'update .gitignore'
+2.idea下springboot打包成jar包和war包，并且可以在外部tomcat下运行访问到
+    https://www.cnblogs.com/sxdcgaq8080/p/7727249.html
+3.SpringBoot 用war包部署到tomcat下详细教程（解决缺少web.xml报错的问题）
+    https://www.jianshu.com/p/0b745afbe0aa
 
 
 

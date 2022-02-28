@@ -1,4 +1,4 @@
-package com.zx.fss.service;
+package com.zx.fss.service.impl;
 
 import com.zx.fss.api.Result;
 import com.zx.fss.api.ResultCode;

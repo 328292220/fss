@@ -101,7 +101,15 @@ public class JsonResponseWrapperFilter implements ComplexFilter {
                             String message = jo.getString("message");
                             return Mono.just(JSON.toJSONBytes(Result.fail(errorCode, message)
                                     , SerializerFeature.WriteMapNullValue));
-                        } else if ("404".equals(jo.getString("status"))) {
+                        } else if ("400".equals(jo.getString("status"))) {
+                            //下游返回了404
+                            return Mono.just(JSON.toJSONBytes(Result.fail(ResultCode.FAILURE),
+                                    SerializerFeature.WriteMapNullValue));
+                        }else if ("403".equals(jo.getString("status"))) {
+                            //下游返回了404
+                            return Mono.just(JSON.toJSONBytes(Result.fail(ResultCode.FORBIDDEN),
+                                    SerializerFeature.WriteMapNullValue));
+                        }else if ("404".equals(jo.getString("status"))) {
                             //下游返回了404
                             return Mono.just(JSON.toJSONBytes(Result.fail(ResultCode.NOT_FOUND),
                                     SerializerFeature.WriteMapNullValue));
@@ -112,7 +120,11 @@ public class JsonResponseWrapperFilter implements ComplexFilter {
                         } else if ("415".equals(jo.getString("status"))) {
                             //下游返回了415
                             return Mono.just(JSON.toJSONBytes(Result.fail(ResultCode.ERROR_CONTENT_TYPE)));
-                        } else {
+                        } else if ("500".equals(jo.getString("status"))) {
+                            //下游返回了415
+                            return Mono.just(JSON.toJSONBytes(Result.fail(ResultCode.ERROR),
+                                    SerializerFeature.WriteMapNullValue));
+                        }else {
                             //下游返回的包体是一个jsonobject，并不是规范的错误包体
                             return Mono.just(JSON.toJSONBytes(Result.fail(ResultCode.ERROR_RESPONSE_BODY),
                                     SerializerFeature.WriteMapNullValue));

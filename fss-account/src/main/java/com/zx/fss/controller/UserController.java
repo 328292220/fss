@@ -42,7 +42,7 @@ public class UserController{
         wrapper.eq(User::getUserName,userName);
         User user = userService.getOne(wrapper);
         if (user == null){
-            return Result.fail();
+            return Result.fail("用户不存在");
         }
         //获取角色
         List<String> roleIds = userService.getRolesByUserId(user.getUserId());
@@ -50,7 +50,7 @@ public class UserController{
         return Result.success(user);
     }
 
-    @RequestMapping("/registerUser")
+    @RequestMapping("/register")
     public Result<User> registerUser(@RequestBody User user) throws Exception {
         if(StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassword())){
             return Result.fail("用户名、密码不能为空");

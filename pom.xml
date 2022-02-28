@@ -172,6 +172,16 @@
 
     <!-- 编译插件 -->
     <build>
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+            <plugins>
+                <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -188,8 +198,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.4.2</version>
                 <configuration>
+                    <!-- 不指定单元测试 -->
                     <skipTests>true</skipTests>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
             </plugin>
 
         </plugins>

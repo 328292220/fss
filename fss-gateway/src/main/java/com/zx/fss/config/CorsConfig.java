@@ -38,7 +38,10 @@ public class CorsConfig{
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedMethod("*");
         config.addAllowedOrigin("*");
+        //允许的头信息
         config.addAllowedHeader("*");
+        //是否发送cookie信息
+        config.setAllowCredentials(true);
         //设置预检请求的缓存时间（秒），在这个时间段里，对于相同的跨域请求不会再预检了
         config.setMaxAge(18000L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());

@@ -2,7 +2,7 @@ package com.zx.fss.config;
 
 import com.zx.fss.component.JwtTokenEnhancer;
 import com.zx.fss.config.customer.CustomerAuthenticationTokenGranter;
-import com.zx.fss.service.UserServiceImpl;
+import com.zx.fss.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.cloud.bootstrap.encrypt.KeyProperties;
 import org.springframework.context.annotation.Bean;

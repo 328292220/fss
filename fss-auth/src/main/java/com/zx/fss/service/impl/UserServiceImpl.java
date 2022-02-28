@@ -1,4 +1,4 @@
-package com.zx.fss.service;
+package com.zx.fss.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
@@ -66,6 +66,9 @@ public class UserServiceImpl implements UserDetailsService {
 
         //feign调用获取登录用户及角色
         Result result = accountService.getUserByUserName(username);
+        if( ResultCode.FAILURE.getCode() ==  result.getCode()){
+            throw new AuthException(result.getCode(),result.getMsg());
+        }
         if( ResultCode.SERVICE_UNAVAILABLE.getCode() ==  result.getCode()){
             throw new AuthException(result.getCode(),AuthException.MSG_USER_SERVICE_ERROR);
         }

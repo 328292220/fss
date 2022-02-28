@@ -39,6 +39,8 @@ secure:
     urls: #配置白名单路径
       - "/actuator/**"
       - "/auth/oauth/token"
+      - "/auth/oauth/verificationCode"
+      - "/account/user/register"
 #debug: true
 logging:
   level:

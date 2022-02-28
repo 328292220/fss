@@ -21,6 +21,8 @@ function encrypt(word) {
     return password
 }
 
+//验证码uuid
+let uuid = null;
 /**
  * 登录
  */
@@ -36,6 +38,8 @@ function formSubmit() {
         "grant_type": "my_password",
         "client_id": "fss_web",
         "client_secret": "fss_secret",
+        "uuid":uuid,
+        "code":$("#captcha").val()
     }
     $.ajax({
         type: 'POST',
@@ -64,11 +68,31 @@ function formSubmit() {
  * 刷新验证码
  */
 function changeCode() {
-    let img = document.getElementById("captchaImg");
-    img.src = ctx + "/getVerifyCodeImage?time=" + new Date().getTime();
+    // let img = document.getElementById("captchaImg");
+    // img.src = ctx + "/verificationCode?time=" + new Date().getTime();
+    $.ajax({
+        type: 'get',
+        url: ctx + "/auth/oauth/verificationCode",
+        data: null,
+        success: function (data) {
+            if (data.code == 200) {
+                let img = document.getElementById("captchaImg");
+                img.src = "data:image/jpeg;base64," + data.data.img;
+                uuid = data.data.uuid;
+            } else {
+                layer.msg(data.msg, {icon: 2,time: 2000}, function () {});
+            }
+        },
+        error: function (data) {
+            layer.msg(data.msg, {icon: 2,time: 2000}, function () {});
+        },
+        dataType: "json"
+    });
 }
 $(function(){
     $("#formSubmit").on("click",function(){
         formSubmit();
-    })
+    });
+    //页面加载完获取验证码
+    changeCode();
 });

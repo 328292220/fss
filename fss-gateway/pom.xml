@@ -22,6 +22,15 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.zx.fss.config.mybatis</groupId>
+                    <artifactId>fss-common</artifactId>
+                </exclusion>
+
             </exclusions>
         </dependency>
 
@@ -71,7 +80,6 @@
         </dependency>
 
     </dependencies>
-
 
 
 </project>

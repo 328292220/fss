@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>fss-account</artifactId>
     <description>用户模块</description>
+    <packaging>war</packaging>
+
 
     <dependencies>
         <dependency>
@@ -20,6 +22,21 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!--目的都是让springboot内嵌的tomcat在运行时不起作用而已-->
+            <!--<exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>-->
+        </dependency>
+
+        <!--声明spring boot内嵌tomcat的作用范围  在运行时不起作用-->
+        <!--目的都是让springboot内嵌的tomcat在运行时不起作用而已-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- nacos配置中心，注册中心 -->
@@ -63,5 +80,27 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.zx.fss.FssAccountApplication</mainClass>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
 
 </project>

@@ -22,6 +22,10 @@ public enum ResultCode implements IResultCode {
 	 */
 	FAILURE(400, "业务异常"),
 	/**
+	 * 禁止访问
+	 */
+	FORBIDDEN(403, "禁止访问"),
+	/**
 	 * 服务未找到
 	 */
 	NOT_FOUND(404, "服务未找到"),
