@@ -47,7 +47,6 @@ function formSubmit() {
         data: params,
         success: function (data) {
             if (data.code == 200) {
-                debugger
                 console.log(data.data.token);
                 layer.msg(data.msg, {icon: 1,time: 1000}, function () {
                     sessionStorage.setItem("token","Bearer "+data.data.token);
