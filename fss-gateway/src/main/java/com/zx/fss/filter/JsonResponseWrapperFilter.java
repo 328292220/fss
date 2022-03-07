@@ -94,7 +94,7 @@ public class JsonResponseWrapperFilter implements ComplexFilter {
                     //如果响应内容已经包含了errcode字段，则表示下游的响应体本身已经是统一结果体了
                     if ((jsonObject instanceof JSONObject)) {
                         JSONObject jo = ((JSONObject) jsonObject);
-                        if (jo.containsKey("errcode")) {
+                        if (jo.containsKey("code")) {
                             return Mono.just(originalBody);
                         } else if (jo.containsKey("status") && jo.containsKey("errorCode")) {
                             int errorCode = jo.getIntValue("errorCode");

@@ -45,7 +45,8 @@ public class AuthController {
         String checkResult = verificationCodeService.checkVerificationCode(verificationCode, verificationUuid);
         if (StringUtils.isNotBlank(checkResult)) {
             // 如果校验验证码失败,直接返回
-            return Result.fail(checkResult);
+            //todo
+            //return Result.fail(checkResult);
         }
         OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         Oauth2TokenDto oauth2TokenDto = Oauth2TokenDto.builder()

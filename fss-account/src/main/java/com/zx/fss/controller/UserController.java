@@ -3,8 +3,8 @@ package com.zx.fss.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zx.fss.account.User;
 import com.zx.fss.api.Result;
-import com.zx.fss.holder.LoginUserHolder;
 import com.zx.fss.service.UserService;
+import com.zx.fss.utils.LoginUserHolder;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,13 +22,12 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController{
 
-    private LoginUserHolder loginUserHolder;
 
     private UserService userService;
 
     @RequestMapping("/currentUser")
     public Result<User> currentUser() {
-        User currentUser = loginUserHolder.getCurrentUser();
+        User currentUser = LoginUserHolder.getCurrentUser(User.class);
         return Result.success(currentUser);
     }
 

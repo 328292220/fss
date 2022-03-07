@@ -29,6 +29,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             this.setFieldValByName("lastUpdatedBy", userId, metaObject);
             this.setFieldValByName("creationDate", new Date(), metaObject);
             this.setFieldValByName("lastUpdateDate", new Date(), metaObject);
+            this.setFieldValByName("objectVersionNumber", 0L, metaObject);
         }
     }
 
@@ -43,7 +44,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
                 userId = userInfo.getUserId();
             }
             this.setFieldValByName("lastUpdatedBy", userId, metaObject);
-            this.setFieldValByName("last_update_date",new Date(),metaObject);
+            this.setFieldValByName("lastUpdateDate",new Date(),metaObject);
         }
 
     }

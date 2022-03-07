@@ -41,7 +41,7 @@ public class BaseEntity implements Serializable {
     */
     @Version
     @ApiModelProperty(value = "版本号")
-    @TableField("object_version_number")
+    @TableField(value = "object_version_number" , fill = FieldFill.INSERT)
     private Long objectVersionNumber;
 
     /*
@@ -65,7 +65,7 @@ public class BaseEntity implements Serializable {
     @TableField(value = "created_by", fill = FieldFill.INSERT)
     private Long createdBy;
 
-    @JsonIgnore
+    //@JsonIgnore
     @ApiModelProperty(value = "最后更新时间")
     @TableField(value = "last_update_date", fill = FieldFill.INSERT_UPDATE)
     private Date lastUpdateDate;

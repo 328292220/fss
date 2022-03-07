@@ -7,16 +7,22 @@ spring:
         namespace: d038fa42-7ca1-4d55-9a35-97873f5109c9
     gateway:
       routes: #配置路由规则
-        - id: oauth2-api-route
+        - id: account
           uri: lb://fss-account
           predicates:
             - Path=/account/**
 #          filters:
 #            - StripPrefix=1
-        - id: oauth2-auth-route
+        - id: auth
           uri: lb://fss-auth
           predicates:
             - Path=/auth/**
+#          filters:
+#            - StripPrefix=1
+        - id: business
+          uri: lb://fss-business
+          predicates:
+            - Path=/business/**
 #          filters:
 #            - StripPrefix=1
       discovery:

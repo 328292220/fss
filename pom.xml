@@ -16,6 +16,7 @@
         <module>fss-entity</module>
         <module>fss-common</module>
         <module>fss-account</module>
+        <module>fss-business</module>
     </modules>
 
     <properties>
@@ -33,6 +34,7 @@
         <mybatis-plus>3.3.1</mybatis-plus>
         <mysql>8.0.25</mysql>
         <pagehelper>1.2.10</pagehelper>
+        <hibernate-validator.verion>6.2.0.Final</hibernate-validator.verion>
     </properties>
 
     <dependencies>
@@ -78,6 +80,13 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+
+        <!-- hibernate-validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.verion}</version>
         </dependency>
 
         <!--swagger-->

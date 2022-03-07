@@ -1,24 +1,23 @@
 package com.zx.fss.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.google.common.collect.Lists;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zx.fss.account.Resource;
 import com.zx.fss.account.Role;
 import com.zx.fss.account.RoleResource;
 import com.zx.fss.account.User;
-import com.zx.fss.holder.LoginUserHolder;
 import com.zx.fss.mapper.ResourceMapper;
 import com.zx.fss.service.ResourceService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zx.fss.service.RoleResourceService;
 import com.zx.fss.service.RoleService;
+import com.zx.fss.utils.LoginUserHolder;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * <p>
@@ -31,8 +30,6 @@ import java.util.stream.Stream;
 @Service
 @AllArgsConstructor
 public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> implements ResourceService {
-
-    private LoginUserHolder loginUserHolder;
 
     private RoleResourceService roleResourceService;
 
@@ -71,7 +68,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     @Override
     public Map<String, Object> menus() {
-        User user = loginUserHolder.getCurrentUser();
+        User user = LoginUserHolder.getCurrentUser(User.class);
         //通过用户获取该用户拥有的菜单资源
         List<Resource> resourceList = baseMapper.getResourcesByUserId(user.getUserId());
 

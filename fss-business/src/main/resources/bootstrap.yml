@@ -1,0 +1,9 @@
+server:
+  port: 9004
+  servlet:
+    context-path: /business
+spring:
+  profiles:
+    active: @profile.active@
+  application:
+    name: fss-business
