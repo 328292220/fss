@@ -1,11 +1,15 @@
 package com.zx.fss.service.impl;
 
+import com.zx.fss.account.User;
+import com.zx.fss.api.Result;
 import com.zx.fss.business.Dir;
 import com.zx.fss.business.File;
 import com.zx.fss.business.dto.CommonDTO;
 import com.zx.fss.service.CommonService;
 import com.zx.fss.service.DirService;
 import com.zx.fss.service.FileService;
+import com.zx.fss.ustils.DownloadUtil;
+import com.zx.fss.utils.LoginUserHolder;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +43,25 @@ public class CommonServiceImpl implements CommonService {
         map.put("dirList",dirList);
         map.put("fileList",fileList);
         return map;
+    }
+
+    @Override
+    public Result download(Map<String, Object> data) {
+        User currentUser = LoginUserHolder.getCurrentUser();
+        Integer id = (Integer) data.get("id");
+        String type = (String) data.get("type");
+        if("file".equalsIgnoreCase(type)){
+            File file = fileService.getById(id);
+            if(file == null){
+                Result.fail("文件不存在");
+            }
+//            if(file.getUserId() != currentUser.getUserId()){
+//                Result.fail("没有权限");
+//            }
+            DownloadUtil.download(new java.io.File(file.getRealPath()));
+        }
+
+        return null;
+
     }
 }

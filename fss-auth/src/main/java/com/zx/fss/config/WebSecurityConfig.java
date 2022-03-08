@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                .antMatchers("/rsa/publicKey","/oauth/verificationCode").permitAll()
+                .antMatchers("/rsa/publicKey","/oauth/verificationCode","/common/download/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 //这里添加一个配置，本项目目的是为了添加一个自定义provider

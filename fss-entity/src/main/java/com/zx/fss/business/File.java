@@ -51,9 +51,17 @@ public class File extends BaseEntity {
     @TableField("file_name")
     private String fileName;
 
+    @ApiModelProperty(value = "文件扩展名(后缀)")
+    @TableField("ext_name")
+    private String extName;
+
     @ApiModelProperty(value = "文件大小(单位kb)")
     @TableField("file_size")
     private Long fileSize;
+
+    @ApiModelProperty(value = "文件真实存储路径")
+    @TableField("real_path")
+    private String realPath;
 
 
 

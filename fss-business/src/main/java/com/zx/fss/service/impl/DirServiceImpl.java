@@ -9,12 +9,14 @@ import com.zx.fss.business.Dir;
 import com.zx.fss.business.File;
 import com.zx.fss.business.dto.CommonDTO;
 import com.zx.fss.constant.SpecialSymbolsUtil;
+import com.zx.fss.exception.BusinessException;
 import com.zx.fss.mapper.DirMapper;
 import com.zx.fss.service.DirService;
 import com.zx.fss.service.FileService;
 import com.zx.fss.utils.LoginUserHolder;
-import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -34,9 +36,10 @@ import java.util.stream.Collectors;
  * @since 2022-03-01
  */
 @Service
-@AllArgsConstructor
 public class DirServiceImpl extends ServiceImpl<DirMapper, Dir> implements DirService {
 
+    @Autowired
+    @Lazy
     FileService fileService;
 
     @Override
@@ -160,13 +163,17 @@ public class DirServiceImpl extends ServiceImpl<DirMapper, Dir> implements DirSe
         //这里条件不能加is_deleted,因为可以还原删除的目录
         Dir dir = this.getOne(wrapper);
         if(Objects.isNull(dir)){
-            //没有父级，说明用户第一次创建文件夹，那么默认创建一个用户根目录（用户名命名）
-            dir = Dir.builder()
-                    .userId(LoginUserHolder.getCurrentUser(User.class).getUserId())
-                    .name(currentUser.getUserName())
-                    .path("")
-                    .build();
-            this.save(dir);
+            if(parentId == null){
+                //没有父级，说明用户第一次创建文件夹，那么默认创建一个用户根目录（用户名命名）
+                dir = Dir.builder()
+                        .userId(LoginUserHolder.getCurrentUser(User.class).getUserId())
+                        .name(currentUser.getUserName())
+                        .path("")
+                        .build();
+                this.save(dir);
+            }else {
+                throw new BusinessException(500,"非法参数值",null);
+            }
         }
         return dir;
 

@@ -1,5 +1,6 @@
 package com.zx.fss.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zx.fss.business.FileType;
 import com.zx.fss.mapper.FileTypeMapper;
 import com.zx.fss.service.FileTypeService;
@@ -17,4 +18,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileTypeServiceImpl extends ServiceImpl<FileTypeMapper, FileType> implements FileTypeService {
 
+    @Override
+    public FileType add(String name) {
+        LambdaQueryWrapper<FileType> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(FileType::getName,name);
+        FileType one = this.getOne(wrapper);
+        if(one == null){
+            FileType fileType = new FileType();
+            fileType.setName(name);
+            this.save(fileType);
+            one = fileType;
+        }
+        return one;
+
+    }
 }

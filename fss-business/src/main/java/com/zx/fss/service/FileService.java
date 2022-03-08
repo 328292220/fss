@@ -3,6 +3,8 @@ package com.zx.fss.service;
 import com.zx.fss.business.File;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zx.fss.business.dto.CommonDTO;
+import com.zx.fss.exception.ResultException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,4 +19,6 @@ import java.util.List;
 public interface FileService extends IService<File> {
 
     List<File> queryByDirId(CommonDTO commonDTO);
+
+    void upload(Long dirId,MultipartFile... files) throws ResultException;
 }

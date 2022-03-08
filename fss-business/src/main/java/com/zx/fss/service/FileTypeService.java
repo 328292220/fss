@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface FileTypeService extends IService<FileType> {
 
+    FileType add(String name);
+
 }

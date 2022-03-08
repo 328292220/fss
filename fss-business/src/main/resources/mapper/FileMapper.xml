@@ -9,7 +9,9 @@
         <result column="dir_id" property="dirId" />
         <result column="user_id" property="userId" />
         <result column="file_name" property="fileName" />
+        <result column="ext_name" property="extName" />
         <result column="file_size" property="fileSize" />
+        <result column="real_path" property="realPath" />
         <result column="creation_date" property="creationDate" />
         <result column="created_by" property="createdBy" />
         <result column="last_update_date" property="lastUpdateDate" />
@@ -19,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        file_id, type_id, dir_id, user_id, file_name, file_size, creation_date, created_by, last_update_date, last_updated_by, is_deleted
+        file_id, type_id, dir_id, user_id, file_name, file_size, real_path,creation_date, created_by, last_update_date, last_updated_by, is_deleted
     </sql>
 
 </mapper>
