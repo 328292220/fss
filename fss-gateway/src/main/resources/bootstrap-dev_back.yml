@@ -1,0 +1,54 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        group: dev
+        namespace: d038fa42-7ca1-4d55-9a35-97873f5109c9
+    gateway:
+      routes: #配置路由规则
+        - id: account
+          uri: lb://fss-account
+          predicates:
+            - Path=/account/**
+#          filters:
+#            - StripPrefix=1
+        - id: auth
+          uri: lb://fss-auth
+          predicates:
+            - Path=/auth/**
+#          filters:
+#            - StripPrefix=1
+        - id: business
+          uri: lb://fss-business
+          predicates:
+            - Path=/business/**
+#          filters:
+#            - StripPrefix=1
+      discovery:
+        locator:
+          enabled: true #开启从注册中心动态创建路由的功能
+          lower-case-service-id: true #使用小写服务名，默认是大写
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: 'http://localhost:9002/auth/rsa/publicKey' #配置RSA的公钥访问地址
+#          public-key-location: classpath:public.txt
+  redis:
+    database: 0
+    port: 6379
+    host: localhost
+    password:
+secure:
+  ignore:
+    urls: #配置白名单路径
+      - "/actuator/**"
+      - "/auth/oauth/token"
+      - "/auth/oauth/verificationCode"
+      - "/account/user/register"
+      - "/business/common/download/**"
+#debug: true
+logging:
+  level:
+    org.springframework.security.web: debug
