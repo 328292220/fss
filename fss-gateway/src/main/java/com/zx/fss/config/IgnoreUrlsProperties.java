@@ -15,6 +15,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Component
 @ConfigurationProperties(prefix="secure.ignore")
-public class IgnoreUrlsConfig {
+public class IgnoreUrlsProperties {
     private List<String> urls;
 }

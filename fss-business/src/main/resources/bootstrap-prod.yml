@@ -1,6 +1,12 @@
-# NACOS服务器配置
 spring:
+#  datasource:
+#    username: root
+#    password: root
+#    url: jdbc:mysql://192.168.3.11:3306/fss?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    type: com.alibaba.druid.pool.DruidDataSource
   cloud:
+    # NACOS服务器配置
     nacos:
       config:
         namespace: ${nacos.namespace}
@@ -22,6 +28,9 @@ spring:
           - dataId: fss-mybatis.yml
             group: ${spring.profiles.active}
             refresh: true
+          - dataId: fss-business.yml
+            group: ${spring.profiles.active}
+            refresh: true
       discovery:
         namespace: ${nacos.namespace}
         group: ${spring.profiles.active}
@@ -30,17 +39,17 @@ spring:
         password: ${nacos.password}
 
 #服务器地址
-server_ip: 127.0.0.1
+server_ip: 47.109.18.15
 #应用
 nacos:
-  namespace: d038fa42-7ca1-4d55-9a35-97873f5109c9
+  namespace: 9c1467b1-5888-4392-ab1a-6262fb36667e
   server-addr: ${server_ip}:8848
   username: nacos
   password: nacos
 redis:
   port: 6379
-  password:
+  password: redisPass123
 jdbc:
-  port: 3306
+  port: 3307
   username: root
-  password: root
+  password: tarkov@2022

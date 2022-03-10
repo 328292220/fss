@@ -1,6 +1,6 @@
-# NACOS服务器配置
 spring:
   cloud:
+    # NACOS服务器配置
     nacos:
       config:
         namespace: ${nacos.namespace}
@@ -13,13 +13,16 @@ spring:
           - dataId: fss-common.yml
             group: ${spring.profiles.active}
             refresh: true
+          - dataId: fss-jwt.yml
+            group: ${spring.profiles.active}
+            refresh: true
           - dataId: fss-redis.yml
             group: ${spring.profiles.active}
             refresh: true
           - dataId: fss-datasource.yml
             group: ${spring.profiles.active}
             refresh: true
-          - dataId: fss-mybatis.yml
+          - dataId: fss-auth.yml
             group: ${spring.profiles.active}
             refresh: true
       discovery:
@@ -29,18 +32,22 @@ spring:
         username: ${nacos.username}
         password: ${nacos.password}
 
+logging:
+  level:
+    com.zx.fss.feign.service: debug
+
 #服务器地址
-server_ip: 127.0.0.1
+server_ip: 47.109.18.15
 #应用
 nacos:
-  namespace: d038fa42-7ca1-4d55-9a35-97873f5109c9
+  namespace: 9c1467b1-5888-4392-ab1a-6262fb36667e
   server-addr: ${server_ip}:8848
   username: nacos
   password: nacos
 redis:
   port: 6379
-  password:
+  password: redisPass123
 jdbc:
-  port: 3306
+  port: 3307
   username: root
-  password: root
+  password: tarkov@2022

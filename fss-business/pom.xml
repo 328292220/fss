@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>fss-business</artifactId>
     <description>具体业务实现模块</description>
-    <packaging>war</packaging>
 
 
     <dependencies>
@@ -95,6 +94,27 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>---------开始复制jar包到共享目录下----------</echo>
+                                <copy file="target/fss-business-0.0.1-SNAPSHOT.jar" toFile="C:\Users\asus\Desktop\exe\fss-business-0.0.1-SNAPSHOT.jar">
+                                </copy>
+                                <delete file="E:\IdeaProjects\fss2\fss-business\target\fss-business-0.0.1-SNAPSHOT.jar"></delete>
+                            </tasks>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

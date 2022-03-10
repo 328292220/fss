@@ -37,7 +37,8 @@ public class LoginUserHolder {
         }
         Class clazz = null;
         try {
-            clazz = ClassLoader.getSystemClassLoader().loadClass("com.zx.fss.account.User");
+//            clazz = ClassLoader.getSystemClassLoader().loadClass("com.zx.fss.account.User");
+            clazz = Class.forName("com.zx.fss.account.User");
         } catch (ClassNotFoundException e) {
             log.error("反射获取类class报错:{}",e);
         }

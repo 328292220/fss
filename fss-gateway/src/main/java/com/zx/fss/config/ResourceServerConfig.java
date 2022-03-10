@@ -20,7 +20,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.reactive.CorsWebFilter;
-import org.springframework.web.filter.CorsFilter;
 import reactor.core.publisher.Mono;
 
 /**
@@ -33,7 +32,7 @@ import reactor.core.publisher.Mono;
 @EnableWebFluxSecurity
 public class ResourceServerConfig {
     private final AuthorizationManager authorizationManager;
-    private final IgnoreUrlsConfig ignoreUrlsConfig;
+    private final IgnoreUrlsProperties ignoreUrlsProperties;
     private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     private final IgnoreUrlsRemoveJwtFilter ignoreUrlsRemoveJwtFilter;
@@ -50,7 +49,7 @@ public class ResourceServerConfig {
         //2、添加跨域的过滤器,不加这个token过期就会有跨域问题
         http.addFilterAt(corsFilter, SecurityWebFiltersOrder.CORS);
         http.authorizeExchange()
-                .pathMatchers(ArrayUtil.toArray(ignoreUrlsConfig.getUrls(),String.class)).permitAll()//白名单配置
+                .pathMatchers(ArrayUtil.toArray(ignoreUrlsProperties.getUrls(),String.class)).permitAll()//白名单配置
                 .anyExchange().access(authorizationManager)//鉴权管理器配置
                 .and().exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler)//处理未授权

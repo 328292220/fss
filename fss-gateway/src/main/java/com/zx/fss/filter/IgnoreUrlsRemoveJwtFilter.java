@@ -1,6 +1,6 @@
 package com.zx.fss.filter;
 
-import com.zx.fss.config.IgnoreUrlsConfig;
+import com.zx.fss.config.IgnoreUrlsProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -21,14 +21,14 @@ import java.util.List;
 @Component
 public class IgnoreUrlsRemoveJwtFilter implements WebFilter {
     @Autowired
-    private IgnoreUrlsConfig ignoreUrlsConfig;
+    private IgnoreUrlsProperties ignoreUrlsProperties;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         URI uri = request.getURI();
         PathMatcher pathMatcher = new AntPathMatcher();
         //白名单路径移除JWT请求头
-        List<String> ignoreUrls = ignoreUrlsConfig.getUrls();
+        List<String> ignoreUrls = ignoreUrlsProperties.getUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, uri.getPath())) {
                 request = exchange.getRequest().mutate().header("Authorization", "").build();

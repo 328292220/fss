@@ -1,7 +1,7 @@
 package com.zx.fss.authorization;
 
 import cn.hutool.core.convert.Convert;
-import com.zx.fss.config.IgnoreUrlsConfig;
+import com.zx.fss.config.IgnoreUrlsProperties;
 import com.zx.fss.constant.AuthConstant;
 import com.zx.fss.constant.RedisConstant;
 import com.zx.fss.utils.RedisUtil;
@@ -19,13 +19,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.PathMatcher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +37,7 @@ import java.util.stream.Collectors;
 public class AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
     @Autowired
-    private IgnoreUrlsConfig ignoreUrlsConfig;
+    private IgnoreUrlsProperties ignoreUrlsProperties;
 
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
@@ -59,7 +57,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         }
 
         //白名单路径直接放行
-        List<String> ignoreUrls = ignoreUrlsConfig.getUrls();
+        List<String> ignoreUrls = ignoreUrlsProperties.getUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, path)) {
                 return Mono.just(new AuthorizationDecision(true));

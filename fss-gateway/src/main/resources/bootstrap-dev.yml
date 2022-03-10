@@ -10,6 +10,9 @@ spring:
         password: ${nacos.password}
         file-extension: yml
         extension-configs:
+          - dataId: fss-common.yml
+            group: ${spring.profiles.active}
+            refresh: true
           - dataId: fss-gateway.yml
             group: ${spring.profiles.active}
             refresh: true
@@ -20,9 +23,19 @@ spring:
         username: ${nacos.username}
         password: ${nacos.password}
 
-# Nacos配置
+#服务器地址
+server_ip: 127.0.0.1
+#应用
 nacos:
   namespace: d038fa42-7ca1-4d55-9a35-97873f5109c9
-  server-addr: 127.0.0.1:8848
+  server-addr: ${server_ip}:8848
   username: nacos
   password: nacos
+redis:
+  port: 6379
+  password:
+jdbc:
+  port: 3306
+  username: root
+  password: root
+

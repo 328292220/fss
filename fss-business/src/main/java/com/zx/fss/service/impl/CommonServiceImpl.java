@@ -11,12 +11,13 @@ import com.zx.fss.service.FileService;
 import com.zx.fss.ustils.DownloadUtil;
 import com.zx.fss.utils.LoginUserHolder;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class CommonServiceImpl implements CommonService {
@@ -55,9 +56,9 @@ public class CommonServiceImpl implements CommonService {
             if(file == null){
                 Result.fail("文件不存在");
             }
-//            if(file.getUserId() != currentUser.getUserId()){
-//                Result.fail("没有权限");
-//            }
+            if(file.getUserId() != currentUser.getUserId()){
+                Result.fail("没有权限");
+            }
             DownloadUtil.download(new java.io.File(file.getRealPath()));
         }
 
