@@ -8,35 +8,22 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>fss-business</artifactId>
+    <artifactId>fss-log</artifactId>
     <description>具体业务实现模块</description>
 
 
     <dependencies>
         <dependency>
             <groupId>com.zx</groupId>
-            <artifactId>fss-entity</artifactId>
+            <artifactId>fss-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!--目的都是让springboot内嵌的tomcat在运行时不起作用而已-->
-            <!--<exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>-->
         </dependency>
 
-        <!--声明spring boot内嵌tomcat的作用范围  在运行时不起作用-->
-        <!--目的都是让springboot内嵌的tomcat在运行时不起作用而已-->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>-->
 
         <!-- nacos配置中心，注册中心 -->
         <dependency>
@@ -48,35 +35,6 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
-        <!--数据库相关-->
-        <!--mysql驱动-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <!--druid-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!--mybatis -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!-- mybatis-plus -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-        </dependency>
 
         <!-- springboot websocket -->
         <dependency>
@@ -106,7 +64,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zx.fss.FssBusinessApplication</mainClass>
+                    <mainClass>com.zx.fss.FssLogApplication</mainClass>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
                 <executions>
@@ -130,9 +88,9 @@
                         <configuration>
                             <tasks>
                                 <echo>---------开始复制jar包到共享目录下----------</echo>
-                                <copy file="target/fss-business-0.0.1-SNAPSHOT.jar" toFile="C:\Users\asus\Desktop\exe\fss-business-0.0.1-SNAPSHOT.jar">
+                                <copy file="target/fss-log-0.0.1-SNAPSHOT.jar" toFile="C:\Users\asus\Desktop\exe\fss-log-0.0.1-SNAPSHOT.jar">
                                 </copy>
-                                <delete file="E:\IdeaProjects\fss2\fss-business\target\fss-business-0.0.1-SNAPSHOT.jar"></delete>
+                                <delete file="E:\IdeaProjects\fss2\fss-business\target\fss-log-0.0.1-SNAPSHOT.jar"></delete>
                             </tasks>
                         </configuration>
                     </execution>

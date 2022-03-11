@@ -122,23 +122,6 @@
         </filter>
     </appender>
 
-    <appender name="HTML" class="ch.qos.logback.core.FileAppender">
-        <!-- 过滤器，只记录WARN级别的日志 -->
-        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>-->
-        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-            <layout class="ch.qos.logback.classic.html.HTMLLayout">
-                <pattern>%p%d%msg%M%F{32}%L</pattern>
-            </layout>
-            <charset>ISO8859-1</charset> <!-- 此处设置字符集 -->
-        </encoder>
-        <file>debug.html</file>
-    </appender>
-
-
     <!--
         <logger>用来设置某一个包或者具体的某一个类的日志打印级别、以及指定<appender>。
         <logger>仅有一个name属性，
@@ -155,8 +138,7 @@
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
         <!--可以输出项目中的debug日志，包括mybatis的sql日志-->
-        <logger name="com.zx.fss" level="WARN" />
-        <logger name="com.zx.fss.exception" level="error" />
+        <logger name="com.zx.fss" level="info" />
         <logger name="com.zx.fss.mapper" level="DEBUG" />
 <!--        <logger name="java.sql.Connection" level="DEBUG" />-->
 <!--        <logger name="java.sql.Statement" level="DEBUG" />-->
@@ -172,7 +154,6 @@
             <appender-ref ref="INFO_FILE" />
             <appender-ref ref="WARN_FILE" />
             <appender-ref ref="ERROR_FILE" />
-            <appender-ref ref="HTML" />
         </root>
     </springProfile>
 

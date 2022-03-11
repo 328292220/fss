@@ -1,0 +1,9 @@
+server:
+  port: 9005
+  servlet:
+    context-path: /log
+spring:
+  profiles:
+    active: @profile.active@
+  application:
+    name: fss-log

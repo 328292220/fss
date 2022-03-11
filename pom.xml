@@ -17,6 +17,7 @@
         <module>fss-common</module>
         <module>fss-account</module>
         <module>fss-business</module>
+        <module>fss-log</module>
     </modules>
 
     <properties>
@@ -243,7 +244,7 @@
                 <profile.active>dev</profile.active>
             </properties>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
         <!--测试环境-->
@@ -260,7 +261,7 @@
                 <profile.active>prod</profile.active>
             </properties>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
         </profile>
     </profiles>

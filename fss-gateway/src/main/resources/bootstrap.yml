@@ -4,6 +4,6 @@ spring:
     profiles:
         active: @profile.active@
     application:
-        name: ffs-gateway
+        name: fss-gateway
     main:
         allow-bean-definition-overriding: true

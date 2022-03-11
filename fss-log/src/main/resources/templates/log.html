@@ -1,0 +1,182 @@
+<!DOCTYPE>
+<!--解决idea thymeleaf 表达式模板报红波浪线-->
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IMS实时日志</title>
+
+    <!-- 引入公用部分 -->
+    <!--<script th:replace="head::static"></script>-->
+    <script th:src="@{/static/jquery/jquery.js}"></script>
+    <style>
+        #zhangxin {
+            text-align: center;
+        }
+
+        .zhangxin {
+            color: green;
+            height: 35px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div id="zhangxin">
+    <div style="margin-bottom: 20px">
+        <input class="zhangxin" style="color: green; height: 35px; " id="defaultLastLineSizem"
+               placeholder=" 默认日志最后500行">
+        <input class="zhangxin" style="color: green; height: 35px; " id="maxLogLineSize" placeholder="默认页面最多查看1000行">
+        <button class="zhangxin" id="setLineCount">设置日志行数</button>
+        <span id="msg"></span>
+    </div>
+    <span class="zhangxin">服务名称：</span>
+    <!--<select class="zhangxin" id="serviceName">
+        <option value="fss-log" selected>fss-log</option>
+        <option value="fss-business">fss-business</option>
+    </select>-->
+    <select id="serviceName" class="zhangxin">
+        <option th:each="serviceName:${serverList}"
+                th:selected="${serviceName}==fss-business"
+                th:value="${serviceName}"
+                th:text="${serviceName}"></option>
+    </select>
+
+    <span class="zhangxin">日志级别：</span>
+    <!--<select class="zhangxin" id="level">
+        <option value="INFO" selected>INFO</option>
+        <option value="WARN">WARN</option>
+        <option value="ERROR">ERROR</option>
+    </select>-->
+    <select id="level" class="zhangxin">
+        <option th:each="level:${levelList}"
+                th:selected="${level}==info"
+                th:value="${level}"
+                th:text="${level}"></option>
+    </select>
+    <input class="zhangxin" style="color: green; height: 35px; " id="lineNumStart" placeholder=" 第1行开始查看">
+    <button class="zhangxin" id="jumpLine">从指定行数日志开始查看
+    </button>
+</div>
+<!-- 标题 -->
+<h1 style="text-align: center;">IMS实时日志</h1>
+<div style="text-align: center;margin: 20px 0px">
+    共<span id="line_count">0</span>行日志，本次查到<span id="show_count">0</span>行日志
+</div>
+<!-- 显示区 -->
+<div id="loggingText" contenteditable="true"
+     style="width:100%;height: 600px;background-color: ghostwhite; overflow: auto;"></div>
+
+<!-- 操作栏 -->
+<div style="text-align: center;">
+    <button onclick="$('#loggingText').text('')" style="color: green; height: 35px;">清屏</button>
+    <button onclick="$('#loggingText').animate({scrollTop:$('#loggingText')[0].scrollHeight});"
+            style="color: green; height: 35px;">滚动至底部
+    </button>
+    <button onclick="if(window.loggingAutoBottom){$(this).text('开启自动滚动');}else{$(this).text('关闭自动滚动');};window.loggingAutoBottom = !window.loggingAutoBottom"
+            style="color: green; height: 35px; ">开启自动滚动
+    </button>
+
+
+</div>
+</body>
+<!--<script th:inline="javascript">-->
+<script>
+    function logFn(serviceName, level, lineNum) {
+        //websocket对象
+        let websocket = null;
+
+        //判断当前浏览器是否支持WebSocket
+        if ('WebSocket' in window) {
+            websocket = new WebSocket("ws://localhost:9005/log/websocket/logging/" + serviceName + "/" + level + "/" + lineNum);
+        } else {
+            console.error("不支持WebSocket");
+        }
+
+        //连接发生错误的回调方法
+        websocket.onerror = function (e) {
+            console.error("WebSocket连接发生错误");
+        };
+
+        //连接成功建立的回调方法
+        websocket.onopen = function () {
+            console.log("WebSocket连接成功")
+            var message = {
+                time: new Date(),
+                text: "Hello world!",
+                clientId: "asdfp8734rew"
+            };
+            websocket.send({"param": JSON.stringify(message)});
+        };
+
+        //接收到消息的回调方法
+        websocket.onmessage = function (event) {
+            //追加
+            if (event.data) {
+
+                let lineCountArr = /#####\d*#####/g.exec(event.data);
+                if (lineCountArr != null) {
+                    let lineCount = lineCountArr[0].replace(/#/g, "")
+                    $("#line_count").text(lineCount);
+                }
+                let showCountArr = /@@@@@\d*@@@@@/g.exec(event.data);
+                if (showCountArr != null) {
+                    let showCount = showCountArr[0].replace(/@/g, "")
+                    $("#show_count").text(showCount);
+                }
+                //日志内容
+                let $loggingText = $("#loggingText");
+                let content = event.data.replace(/#####\d*#####|@@@@@\d*@@@@@/g, "");
+                $loggingText.append(content);
+
+                //是否开启自动底部
+                if (window.loggingAutoBottom) {
+                    //滚动条自动到最底部
+                    $loggingText.scrollTop($loggingText[0].scrollHeight);
+                }
+            }
+        }
+
+        //连接关闭的回调方法
+        websocket.onclose = function () {
+            console.log("WebSocket连接关闭")
+        };
+    }
+
+    $(function () {
+        //默认查看最后500行数据
+        let serviceName = $("#serviceName").val();
+        let level = $("#level").val();
+        let lineNumStart = $("#lineNumStart").val();
+        logFn(serviceName, level, -1);
+    });
+
+    $("#jumpLine").on("click", function () {
+        //清空
+        $("#loggingText").text("");
+        let serviceName = $("#serviceName").val();
+        let level = $("#level").val();
+        let lineNumStart = $("#lineNumStart").val();
+        if (lineNumStart == null || lineNumStart == "") {
+            lineNumStart = -1;
+        }
+        logFn(serviceName, level, lineNumStart);
+    })
+    $("#setLineCount").on("click",function(){
+        $.ajax({
+            type: 'get',
+            url: "/log/updateNacos",
+            data: {"defaultLastLineSizem":$("#defaultLastLineSizem").val(),"maxLogLineSize":$("#maxLogLineSize").val()},
+            success: function (data) {
+                $("#msg").text(data.msg)
+            },
+            error: function (data) {
+                $("#msg").text("设置失败")
+            },
+            dataType: "json"
+        });
+    })
+
+
+</script>
+</html>

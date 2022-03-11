@@ -24,16 +24,7 @@ spring:
           - dataId: fss-common.yml
             group: ${spring.profiles.active}
             refresh: true
-          - dataId: fss-redis.yml
-            group: ${spring.profiles.active}
-            refresh: true
-          - dataId: fss-datasource.yml
-            group: ${spring.profiles.active}
-            refresh: true
-          - dataId: fss-mybatis.yml
-            group: ${spring.profiles.active}
-            refresh: true
-          - dataId: fss-business.yml
+          - dataId: fss-log.yml
             group: ${spring.profiles.active}
             refresh: true
       discovery:
