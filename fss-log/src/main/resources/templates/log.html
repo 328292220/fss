@@ -70,6 +70,7 @@
 <!-- 操作栏 -->
 <div style="text-align: center;">
     <button onclick="$('#loggingText').text('')" style="color: green; height: 35px;">清屏</button>
+    <button id="deleteLog" style="color: green; height: 35px;">永久删除日志</button>
     <button onclick="$('#loggingText').animate({scrollTop:$('#loggingText')[0].scrollHeight});"
             style="color: green; height: 35px;">滚动至底部
     </button>
@@ -82,13 +83,17 @@
 </body>
 <!--<script th:inline="javascript">-->
 <script>
+    let host = window.location.host;
+    console.log("host:" + host)
     function logFn(serviceName, level, lineNum) {
+        $("#show_count").text(0);
         //websocket对象
         let websocket = null;
 
         //判断当前浏览器是否支持WebSocket
         if ('WebSocket' in window) {
-            websocket = new WebSocket("ws://localhost:9005/log/websocket/logging/" + serviceName + "/" + level + "/" + lineNum);
+            websocket = new WebSocket("ws://" + host + "/log/websocket/logging/" + serviceName + "/" + level + "/" + lineNum);
+            // websocket = new WebSocket("/log/websocket/logging/" + serviceName + "/" + level + "/" + lineNum);
         } else {
             console.error("不支持WebSocket");
         }
@@ -172,6 +177,25 @@
             },
             error: function (data) {
                 $("#msg").text("设置失败")
+            },
+            dataType: "json"
+        });
+    })
+    //删除日志
+    $("#deleteLog").on("click",function(){
+        let serviceName = $("#serviceName").val();
+        let level = $("#level").val();
+        $.ajax({
+            type: 'get',
+            url: "/log/delete/" + serviceName + "/" + level,
+            success: function (data) {
+                $("#show_count").text(0);
+                $("#line_count").text(0);
+                $("#loggingText").text("日志已被清空")
+                console("删除日志："+data)
+            },
+            error: function (data) {
+                console("删除日志："+data)
             },
             dataType: "json"
         });

@@ -1,20 +1,24 @@
 package com.zx.fss.controller;
 
 import com.zx.fss.api.Result;
+import com.zx.fss.constant.SpecialSymbolsUtil;
 import com.zx.fss.properties.LogServiceProperties;
 import com.zx.fss.properties.LogNacosProperties;
 import com.zx.fss.utils.YamlUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.websocket.server.PathParam;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping
 public class LogController {
@@ -38,6 +42,40 @@ public class LogController {
         return modelAndView;
     }
 
+    @RequestMapping("delete/{applicationName}/{logLevel}")
+    @ResponseBody
+    public boolean delete(@PathVariable("logLevel") String  logLevel,
+                       @PathVariable("applicationName") String  applicationName){
+        FileWriter fileWriter = null;
+        try{
+            //日志路径
+            String filePath = logServiceProperties.getRootPath()
+                    + SpecialSymbolsUtil.separator
+                    + applicationName
+                    + SpecialSymbolsUtil.separator
+                    +"log_"+logLevel.toLowerCase()+".log";
+            File file = new File(filePath);
+            if (file.exists()){
+                fileWriter = new FileWriter(file);
+                fileWriter.write("");
+                fileWriter.flush();
+
+                log.info("日志删除成功！");
+            }
+            return true;
+        }catch (Exception e){
+            log.error("日志删除失败！",e.getMessage());
+        }finally {
+            try {
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+
+    }
+
 
     @RequestMapping("/updateNacos")
     @ResponseBody
@@ -49,13 +87,12 @@ public class LogController {
         return updateNacos(map);
     }
 
-    private static Result updateNacos( Map<String,Object> map){
+    private Result updateNacos( Map<String,Object> map){
         String dataId = "fss-log.yml";
-        String groupId = "dev";
         boolean update = YamlUtil.builder()
-                .logNacosProperties(null)
+                .logNacosProperties(logNacosProperties)
                 .dataId(dataId)
-                .groupId(groupId)
+                .groupId(logServiceProperties.getGroupId())
                 .build()
                 .update(map);
         if(update){

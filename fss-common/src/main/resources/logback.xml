@@ -162,9 +162,10 @@
     <springProfile name="prod">
 
         <!--可以输出项目中的debug日志，包括mybatis的sql日志-->
-        <logger name="com.zx.fss" level="WARN" />
+        <logger name="com.zx.fss" level="info" />
 
         <root level="INFO">
+            <appender-ref ref="CONSOLE" />
             <appender-ref ref="INFO_FILE" />
             <appender-ref ref="WARN_FILE" />
             <appender-ref ref="ERROR_FILE" />

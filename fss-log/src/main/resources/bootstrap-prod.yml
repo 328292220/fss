@@ -1,4 +1,9 @@
 spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+    static-path-pattern: /static/**
 #  datasource:
 #    username: root
 #    password: root
@@ -17,6 +22,9 @@ spring:
         file-extension: yml
         extension-configs:
           - dataId: fss-common.yml
+            group: ${spring.profiles.active}
+            refresh: true
+          - dataId: fss-log.yml
             group: ${spring.profiles.active}
             refresh: true
       discovery:

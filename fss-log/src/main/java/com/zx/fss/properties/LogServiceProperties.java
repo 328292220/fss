@@ -18,7 +18,8 @@ import java.util.List;
 public class LogServiceProperties {
     private int defaultLastLineSize;
     private int maxLogLineSize;
-    private String rootPath;
+    private String rootPath;//日志根目录
+    private String  groupId;
     private List<String> serverList;
     private List<String> levelList;
 }

@@ -16,6 +16,9 @@ spring:
           - dataId: fss-gateway.yml
             group: ${spring.profiles.active}
             refresh: true
+          - dataId: fss-redis.yml
+            group: ${spring.profiles.active}
+            refresh: true
       discovery:
         namespace: ${nacos.namespace}
         group: ${spring.profiles.active}

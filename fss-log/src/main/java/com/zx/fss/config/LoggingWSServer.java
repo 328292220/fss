@@ -16,6 +16,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * WebSocket获取实时日志并输出到Web页面
@@ -113,18 +115,19 @@ public class LoggingWSServer {
                         line = line.replace("INFO", "<span style='color: green;'>INFO</span>");
                         line = line.replace("WARN", "<span style='color: orange;'>WARN</span>");
                         line = line.replace("ERROR", "<span style='color: red;'>ERROR</span>");
+                        line = line.replace("Error", "<span style='color: red;'>ERROR</span>");
 
                         //处理类名
-                        String[] split = line.split("]");
-                        if (split.length >= 2) {
-                            String[] split1 = split[1].split("-");
-                            if (split1.length >= 2) {
-                                line = split[0] + "]" + "<span style='color: #298a8a;'>" + split1[0] + "</span>" + "-" + split1[1];
-                            }
-                        }
-
+//                        String[] split = line.split("]");
+//                        if (split.length >= 2) {
+//                            String[] split1 = split[1].split("-");
+//                            if (split1.length >= 2) {
+//                                line = split[0] + "]" + "<span style='color: #298a8a;'>" + split1[0] + "</span>" + "-" + split1[1];
+//                            }
+//                        }
+                        line = addColor(line);
                         copyOfRange[i] = line;
-                        //最多查看日志行数
+
                     }
 
                     //存储最新一行开始
@@ -227,6 +230,28 @@ public class LoggingWSServer {
 
         return arr.length;
     }
+
+    private String addColor(String line){
+        String pattern = "(com.zx.fss.[\\S\\.]*)\\s+";
+        pattern = "(([\\S\\.]*) - )|((com.zx.fss.[\\S\\.]*)\\s+)|((com.zx.fss.[\\S\\.]*)\\))";
+        // 创建 Pattern 对象
+        Pattern r = Pattern.compile(pattern);
+
+        // 现在创建 matcher 对象
+        Matcher m = r.matcher(line);
+        while (m.find()){
+            String group = m.group();
+            String color = "green";
+            if(group.contains("com.zx.fss")){
+                color = "red";
+            }
+            line = line.replace(group,"<span style='color:"+color+";'>" + group + "</span>");
+        }
+
+        return line;
+    }
+
+
 
 
 
