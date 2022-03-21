@@ -227,10 +227,10 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         tokenServices.setClientDetailsService(jdbcClientDetailsService());
 
         //存储方式
-        //tokenServices.setTokenStore(jdbcTokenStore());
+        tokenServices.setTokenStore(jdbcTokenStore());
         //tokenServices.setTokenStore(redisTokenStore());
         //tokenServices.setTokenStore(tokenStore());
-        tokenServices.setTokenStore(jwtTokenStore(jwtAccessTokenConverter()));//每次登录，都是新的token，过期时间重置
+        //tokenServices.setTokenStore(jwtTokenStore(jwtAccessTokenConverter()));//每次登录，都是新的token，过期时间重置
         // token增强链
         tokenServices.setTokenEnhancer(getTokenEnhancerChain());
         //身份认证管理器

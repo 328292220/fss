@@ -1,0 +1,9 @@
+server:
+  port: 9006
+  servlet:
+    context-path: /view
+spring:
+  profiles:
+    active: @profile.active@
+  application:
+    name: fss-view

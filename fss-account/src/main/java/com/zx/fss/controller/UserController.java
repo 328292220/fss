@@ -5,11 +5,11 @@ import com.zx.fss.account.User;
 import com.zx.fss.api.Result;
 import com.zx.fss.service.UserService;
 import com.zx.fss.utils.LoginUserHolder;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,19 +20,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
+@Api(value = "用户", tags = "用户相关接口")
 public class UserController{
 
 
     private UserService userService;
 
-    @RequestMapping("/currentUser")
+    @RequestMapping(value = "/currentUser")
+    @ApiOperation(value = "获取当前用户",httpMethod = "GET")
     public Result<User> currentUser() {
         User currentUser = LoginUserHolder.getCurrentUser(User.class);
         return Result.success(currentUser);
     }
 
     @RequestMapping("/getUserByUserName")
-    public Result<User> getUserByUserName(String userName) {
+    @ApiOperation(value = "通过用户名获取用户",httpMethod = "GET")
+    public Result<User> getUserByUserName(@RequestParam String userName) {
 //        User user = new User();
 //        user.setUserId(1111L);
 //        user.setUserName(userName);
@@ -50,6 +53,7 @@ public class UserController{
     }
 
     @RequestMapping("/register")
+    @ApiOperation(value = "注册用户",httpMethod = "POST")
     public Result<User> registerUser(@RequestBody User user) throws Exception {
         if(StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassword())){
             return Result.fail("用户名、密码不能为空");

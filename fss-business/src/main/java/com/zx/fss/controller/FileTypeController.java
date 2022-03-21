@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author guoenhong@crb.cn
  * @since 2022-03-01
  */
-@RestController
-@RequestMapping("/file-type")
-public class FileTypeController {
-
-}
+//@RestController
+//@RequestMapping("/file-type")
+//public class FileTypeController {
+//
+//}

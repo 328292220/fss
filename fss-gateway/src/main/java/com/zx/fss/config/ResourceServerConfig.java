@@ -6,6 +6,7 @@ import com.zx.fss.authorization.AuthorizationManager;
 import com.zx.fss.component.RestAuthenticationEntryPoint;
 import com.zx.fss.component.RestfulAccessDeniedHandler;
 import com.zx.fss.filter.IgnoreUrlsRemoveJwtFilter;
+import com.zx.fss.properties.IgnoreUrlsProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

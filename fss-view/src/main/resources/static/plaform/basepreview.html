@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/common.js"></script>
+    <style>
+        body {
+            background-color: #404040;
+        }
+
+        #app {
+            width: 100%;
+            height: 100%;
+        }
+
+        .img-area {
+            text-align: center
+        }
+
+        img {
+            border: 0;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+</body>
+
+</html>
+<script>
+    var checkConvertImageFileUrl = getRootPath() + "/service/checkConvertImageFile";
+    var pageData = {
+        pageNum: getUrlParam("pageNum"),
+        fileGuid: getUrlParam("fileGuid"),
+        isConvert: getUrlParam("isConvert"),
+    }
+
+    var interval;
+
+    function bindImage() {
+        var count = parseInt(pageData.pageNum);
+        for (var i = 1; i <= count; i++) {
+            var fileUrl = getRootPath() + pageData.fileGuid + "/split_" + i + ".jpeg";
+            var text = "";
+            text += "        <div  class=\"img-area\">";
+            text += "            <img class=\"my-photo\" src=\"../images/loading.gif\" data-src='" + fileUrl + "' id='" + i + "'>";
+            text += "        </div>";
+            $("#app").append(text);
+        }
+    }
+
+    function checkImageItem() {
+        if (pageData.isConvert == "1") {
+            clearInterval(interval);
+            var count = parseInt(pageData.pageNum);
+            for (var i = 1; i <= count; i++) {
+                var source = $("#" + i).attr("data-src")
+                $("#" + i).attr("src", source);
+            }
+        } else {
+            var data = {
+                fileGuid: pageData.fileGuid,
+                pageNum: pageData.pageNum
+            };
+            JsonAjax(JSON.stringify(data), checkConvertImageFileUrl, function(result, status) {
+                if (result.code == 0) {
+                    var maxFileIndex = result.data.maxFileIndex
+                    
+                    for(var i = 1;i<=maxFileIndex;i++){
+                        var imageIndex = i;
+                        var source = $("#" + imageIndex).attr("data-src");
+                        var src = $("#" + imageIndex).attr("src");
+                        if(src=="../images/loading.gif"){
+                            $("#" + imageIndex).attr("src", source);
+                        }
+                    }
+                    var count = parseInt(pageData.pageNum);
+                    if (maxFileIndex == count) {
+                        clearInterval(interval);
+                    }
+                }
+            })
+        }
+    }
+
+    $(function() {
+        //图片占位
+        bindImage();
+        //逐个图片检查是否转换完成
+        checkImageItem();
+        //设置定时任务
+        interval = setInterval("checkImageItem()", 1000);
+    })
+</script>

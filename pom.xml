@@ -18,6 +18,7 @@
         <module>fss-account</module>
         <module>fss-business</module>
         <module>fss-log</module>
+        <module>fss-view</module>
     </modules>
 
     <properties>
@@ -36,6 +37,9 @@
         <mysql>8.0.25</mysql>
         <pagehelper>1.2.10</pagehelper>
         <hibernate-validator.verion>6.2.0.Final</hibernate-validator.verion>
+        <swagger.version>2.9.2</swagger.version>
+        <swagger-models.version>1.6.0</swagger-models.version>
+        <swagger-annotations.version>1.6.0</swagger-annotations.version>
     </properties>
 
     <dependencies>
@@ -91,11 +95,20 @@
         </dependency>
 
         <!--swagger-->
+        <!-- 3.0版本只需要引入一个，不再像2.x版本需要引入两个包 -->
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.5.13</version>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
         </dependency>
+
+        <!--swagger-ui  这里是用了一个好看一点ui界面-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
+            <version>1.9.6</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -201,7 +214,11 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
+                    <!--<compilerArguments>
+                        <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
+                    </compilerArguments>-->
                 </configuration>
+
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -232,6 +249,13 @@
                 <!--开启过滤，用指定的参数替换directory下的文件中的参数-->
                 <filtering>true</filtering>
             </resource>
+            <resource>
+                <directory>lib</directory>
+                <targetPath>/BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>*.jar</include>
+                </includes>
+            </resource>
         </resources>
     </build>
 
@@ -244,7 +268,7 @@
                 <profile.active>dev</profile.active>
             </properties>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
         <!--测试环境-->
@@ -261,7 +285,7 @@
                 <profile.active>prod</profile.active>
             </properties>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
         </profile>
     </profiles>

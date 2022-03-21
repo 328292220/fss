@@ -45,6 +45,8 @@ function formSubmit() {
         type: 'POST',
         url: ctx + "/auth/oauth/token",
         data: params,
+        //headers:{'Content-Type':'application/json; charset=utf8'},
+        headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
         success: function (data) {
             if (data.code == 200) {
                 console.log(data.data.token);

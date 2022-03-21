@@ -110,7 +110,7 @@
                         <configuration>
                             <tasks>
                                 <echo>---------开始复制jar包到共享目录下----------</echo>
-                                <copy file="target/fss-account-0.0.1-SNAPSHOT.jar" toFile="C:\Users\asus\Desktop\exe\fss-account-0.0.1-SNAPSHOT.jar">
+                                <copy file="target/fss-account-0.0.1-SNAPSHOT.jar" toFile="C:\Users\asus\Desktop\zhangxin\fss-account-0.0.1-SNAPSHOT.jar">
                                 </copy>
                                 <delete file="E:\IdeaProjects\fss2\fss-account\target\fss-account-0.0.1-SNAPSHOT.jar"></delete>
                             </tasks>

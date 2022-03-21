@@ -8,6 +8,8 @@ import com.zx.fss.constant.SpecialSymbolsUtil;
 import com.zx.fss.exception.ResultException;
 import com.zx.fss.service.FileService;
 import com.zx.fss.utils.LoginUserHolder;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,14 +32,16 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/file")
 @AllArgsConstructor
+@Api(value = "文件", tags = "文件相关接口")
 public class FileController {
 
     FileService fileService;
 
     @PostMapping("/upload")
     @ResponseBody
+    @ApiOperation(value = "上传文件",httpMethod = "POST")
     public Result upload(@RequestParam("files")MultipartFile[] files,
-                         @RequestParam Long  parentId) throws ResultException {
+                         @RequestParam(required = false) Long  parentId) throws ResultException {
         if (files.length == 0) {
             return Result.fail("上传失败，请选择文件");
         }

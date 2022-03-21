@@ -1,7 +1,7 @@
 package com.zx.fss.authorization;
 
 import cn.hutool.core.convert.Convert;
-import com.zx.fss.config.IgnoreUrlsProperties;
+import com.zx.fss.properties.IgnoreUrlsProperties;
 import com.zx.fss.constant.AuthConstant;
 import com.zx.fss.constant.RedisConstant;
 import com.zx.fss.utils.RedisUtil;
@@ -68,6 +68,13 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         String token = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (StringUtils.isBlank(token)) {
             return Mono.just(new AuthorizationDecision(false));
+        }else {
+            //查询redis是否有该token，没有则说明用户已经退出
+            token = token.replace("Bearer ", "");
+            Object obj = redisUtil.get(token);
+            if(obj == null){
+                return Mono.just(new AuthorizationDecision(false));
+            }
         }
 
         // 指定服务请求直接放行,可以加多个，根据需要添加

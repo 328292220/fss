@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/common.js"></script>
+
+    <style>
+        body {
+            background-color: #404040;
+        }
+
+        #app {
+            width: 100%;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #divContent {
+            color: #fff;
+            word-wrap: break-word;
+            background-color: #000;
+            padding-bottom: 10px;
+            white-space: pre-wrap;
+            width:1000px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div id="divContent">
+
+    </div>
+</div>
+</body>
+
+</html>
+<script>
+    var getFileContentUrl = getRootPath() + "/service/getFileContent";
+    $(function () {
+        var data = {
+            fileGuid: getUrlParam("fileGuid"),
+        };
+        JsonAjax(JSON.stringify(data), getFileContentUrl, function (result, status) {
+            if (result.code == 0) {
+                var fileContent = result.data.fileContent;
+                $("#divContent").html(fileContent);
+            }
+        })
+    })
+</script>

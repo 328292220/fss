@@ -1,15 +1,16 @@
 package com.zx.fss.business.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 public class CommonDTO {
-    //当前目录ID
-    private Long dirId;
-    //父目录ID
+//    @ApiModelProperty(value = "当前目录ID")
+//    private Long dirId;
+    @ApiModelProperty(value = "父目录ID,不传或null,表示查询根目录下数据")
     private Long parentId;
-    //排序字段
+    @ApiModelProperty(value = "排序字段:暂时无用，默认根据修改时间排序")
     private String orderByName;
-    //排序方式
+    @ApiModelProperty(value = "排序方式：DESC | ASC")
     private String orderByType;
 }

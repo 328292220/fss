@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/common.js"></script>
+    <style>
+        body {
+            background-color: #404040;
+        }
+
+        #app {
+            width: 100%;
+            height: 100%;
+        }
+
+        .img-area {
+            text-align: center
+        }
+
+        img {
+            border: 0;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+</body>
+
+</html>
+<script>
+    var checkConvertExcelHtmlFileUrl = getRootPath() + "/service/checkConvertExcelHtmlFile";
+    var pageData = {
+        pageNum: getUrlParam("pageNum"),
+        fileGuid: getUrlParam("fileGuid"),
+        isConvert: getUrlParam("isConvert"),
+    }
+
+    var interval;
+
+    function checkExcelConvert() {
+        if (pageData.isConvert == "1") {
+            clearInterval(interval);
+            window.location.href = getRootPath() + pageData.fileGuid+"/convert.html";
+        } else {
+            var data = {
+                fileGuid: pageData.fileGuid,
+            };
+            JsonAjax(JSON.stringify(data), checkConvertExcelHtmlFileUrl, function(result, status) {
+                if (result.code == 0 && result.data.checkConvert) {
+                    clearInterval(interval);
+                    window.location.href = getRootPath() + pageData.fileGuid+"/convert.html";
+                }
+            })
+        }
+    }
+
+    $(function() {
+        checkExcelConvert();
+        //设置定时任务
+        interval = setInterval("checkExcelConvert()", 1000);
+    })
+</script>

@@ -1,6 +1,6 @@
 package com.zx.fss.filter;
 
-import com.zx.fss.config.IgnoreUrlsProperties;
+import com.zx.fss.properties.IgnoreUrlsProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;

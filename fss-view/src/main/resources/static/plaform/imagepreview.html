@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/viewer.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/viewer.min.css"/>
+    <style>
+        body {
+            background-color: #404040;
+        }
+
+        #app {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <img id="image"  style="display: none">
+</div>
+</body>
+
+</html>
+<script>
+     loadImg = function () {
+        document.getElementById("img").src = "servlet/IdentityServlet?ts=" + new Date().getTime();
+    }
+
+$(function () {
+        let rootPath = getRootPath();
+        let path = getQueryString("file");
+        let src = rootPath+"/view/"+path +"?ts=" + new Date().getTime();
+        $("#image").attr("src", src);
+        var image = new Viewer(document.getElementById('image'),{
+            url: 'data-original',
+            button:false,
+            navbar:false,
+            backdrop: false
+        });
+        document.getElementById('image').click();
+    })
+</script>
