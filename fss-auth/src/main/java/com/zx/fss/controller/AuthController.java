@@ -60,7 +60,8 @@ public class AuthController {
      */
     @RequestMapping(value = "/token", method = RequestMethod.POST)
     @ApiOperation(value = "获取或刷新token",httpMethod = "POST")
-    public Result<Oauth2TokenDto> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
+    public Result<Oauth2TokenDto> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters)
+            throws HttpRequestMethodNotSupportedException {
         String verificationCode = parameters.get(AuthConstant.VERIFICATION_CODE);
         String verificationUuid = parameters.get(AuthConstant.VERIFICATION_UUID);
         String checkResult = verificationCodeService.checkVerificationCode(verificationCode, verificationUuid);
