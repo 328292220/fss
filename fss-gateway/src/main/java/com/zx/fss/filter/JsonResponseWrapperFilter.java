@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
  * 微服务之网关处理全局异常以及封装统一响应体
  * https://blog.csdn.net/BobZhangfighting/article/details/111210298?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-1-111210298.pc_agg_new_rank&utm_term=%E7%BD%91%E5%85%B3%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86404&spm=1000.2123.3001.4430
  */
-@Component
+//@Component
 @Slf4j
 public class JsonResponseWrapperFilter implements ComplexFilter {
     public static final String IS_IGNOREAUTHFILTER = "ingore";

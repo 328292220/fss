@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
-/**
+/** 验证码配置类
  * @className: KaptchaConfig
  * @description: Kaptcha 配置类
  * @author: pengju.ma

@@ -63,7 +63,9 @@ public class File extends BaseEntity {
     @TableField("real_path")
     private String realPath;
 
-
+    @ApiModelProperty(value = "二进制文件数据")
+    @TableField(exist = false)
+    private String streamData;
 
 
 }

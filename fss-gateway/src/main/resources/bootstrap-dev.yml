@@ -42,3 +42,9 @@ jdbc:
   username: root
   password: root
 
+#spring:
+#  cloud:
+#    sentinel:
+#      transport:
+#        #  添加sentinel的控制台地址 dashboard 学习 https://www.jianshu.com/p/c47dfd25eeee
+#        dashboard: 127.0.0.1:8858

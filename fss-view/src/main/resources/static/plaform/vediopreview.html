@@ -24,15 +24,18 @@
 
 <body>
 <div id="app">
-    <video id="myvideo" class="video-js vjs-big-play-centered" controls data-setup="{}" width="1366" height="768" preload="auto">
+    <!--<video id="myvideo" class="video-js vjs-big-play-centered" controls data-setup="{}" width="1366" height="768" preload="auto">
         <source id="vedio" src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
-    </video>
+    </video>-->
 </div>
 </body>
 
 </html>
 <script>
     $(function () {
+        let video = '<video id="myvideo" class="video-js vjs-big-play-centered" controls data-setup="{}" width="1366" height="768" preload="auto"> <source id="vedio" src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source> </video>';
+        $("#app").html(video);
+
         let rootPath = getRootPath();
         let path = getQueryString("file");
         let src = rootPath+"/view/"+path +"?ts=" + new Date().getTime();

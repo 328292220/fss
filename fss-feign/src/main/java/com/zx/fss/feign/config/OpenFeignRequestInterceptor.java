@@ -5,6 +5,7 @@
  */
 package com.zx.fss.feign.config;
 
+import com.zx.fss.account.User;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 

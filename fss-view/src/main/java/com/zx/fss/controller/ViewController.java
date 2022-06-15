@@ -47,7 +47,7 @@ public class ViewController {
 //        os.close();
 
         //设置返回的文件类型
-        response.setContentType("image/jpeg");
+        //response.setContentType("image/jpeg");
         String file = ConvertOp.convert2String(fileUrl);
         byte[] decode = Base64.getDecoder().decode(file);
         file = new String(decode);

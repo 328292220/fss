@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,7 @@ public class CommonController {
     @RequestMapping("/download/{type}/{id}")
     @ResponseBody
     @ApiOperation(value = "下载文件",httpMethod = "GET")
-    public Result download(@PathVariable String type,@PathVariable Integer id) throws ResultException {
+    public Result download(@PathVariable String type, @PathVariable Integer id, HttpServletResponse response) throws ResultException {
         if(id == null || StringUtils.isBlank(type)){
             return Result.fail("id和type必传");
         }

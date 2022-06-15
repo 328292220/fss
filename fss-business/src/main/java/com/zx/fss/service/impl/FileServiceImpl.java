@@ -118,7 +118,5 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 throw new ResultException(ResultCode.FILE_UPLOAD_EXCEPTION);
             }
         }
-
-
     }
 }

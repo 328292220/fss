@@ -3,6 +3,8 @@ package com.zx.fss.ustils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -59,7 +61,7 @@ public class DownloadUtil {
         return response;
     }
 
-    public void downloadLocal(HttpServletResponse response) throws FileNotFoundException {
+    public static void downloadLocal(HttpServletResponse response) throws FileNotFoundException {
         // 下载本地文件
         String fileName = "Operator.doc".toString(); // 文件的默认保存名
         // 读到流中
@@ -131,33 +133,104 @@ public class DownloadUtil {
     /**支持中文名称:
      * 文件下载
      */
-    public static void download(File file) {
-        try {
-            String fileName = file.getName();
-            //支持中文
-            fileName = URLEncoder.encode(fileName, "UTF-8");
-            HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            response.reset();
-            response.setContentType(request.getServletContext().getMimeType(fileName));
-            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-            response.setHeader("Content-Disposition", "inline;filename=" + fileName);
-            InputStream in = new FileInputStream(file);
-            OutputStream out = response.getOutputStream();
+//    public static void download(File file) {
+//        try {
+//            String fileName = file.getName();
+//            //支持中文
+//            fileName = URLEncoder.encode(fileName, "UTF-8");
+//            HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+//            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//            response.reset();
+//            //response.setContentType(request.getServletContext().getMimeType(fileName));
+//            response.setContentType("application/octet-stream");
+//            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+//            //response.setHeader("Content-Disposition", "inline;filename=" + fileName);
+//            InputStream in = new FileInputStream(file);
+//            OutputStream out = response.getOutputStream();
+//
+//            byte[] b = new byte[1024];
+//            int length = 0;
+//            while ((length = in.read(b)) != -1) {
+//                out.write(b, 0, length);
+//            }
+//            in.close();
+//            out.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-            byte[] b = new byte[1024];
-            int length = 0;
-            while ((length = in.read(b)) != -1) {
-                out.write(b, 0, length);
+    /**
+     * @param path 指想要下载的文件的路径
+     * @param response
+     * @功能描述 下载文件:将输入流中的数据循环写入到响应输出流中，而不是一次性读取到内存
+     */
+//    public static void download(String path)  {
+//        try{
+//            HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+//            // 读到流中
+//            InputStream inputStream = new FileInputStream(path);// 文件的存放路径
+//            response.reset();
+//            response.setContentType("application/octet-stream");
+//            String filename = new File(path).getName();
+//            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(filename, "UTF-8"));
+//            ServletOutputStream outputStream = response.getOutputStream();
+//            byte[] b = new byte[1024];
+//            int len;
+//            //从输入流中读取一定数量的字节，并将其存储在缓冲区字节数组中，读到末尾返回-1
+//            while ((len = inputStream.read(b)) > 0) {
+//                outputStream.write(b, 0, len);
+//            }
+//            inputStream.close();
+//            outputStream.close();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//    }
+
+    public static void download(String path)  {
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+
+        ServletOutputStream out =null;
+        ByteArrayOutputStream baos = null;
+        try {
+            // 读到流中
+            InputStream inStream = new FileInputStream(path);// 文件的存放路径
+            byte[] buffer = new byte[1024];
+            int len;
+            baos = new ByteArrayOutputStream();
+            while ((len=inStream.read(buffer))!=-1){
+                baos.write(buffer,0,len);
             }
-            in.close();
-            out.close();
-        } catch (FileNotFoundException e) {
+            String filename = new File(path).getName();
+            response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+            response.addHeader("Content-Length", "" + baos.size());
+            response.setHeader("filename", filename);
+            response.setContentType("application/octet-stream");
+            out = response.getOutputStream();
+            out.write(baos.toByteArray());
+
+        }catch (Exception e){
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
+        }finally {
+            try {
+                baos.flush();
+                baos.close();
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+
         }
+
     }
+
 
 
 }

@@ -101,11 +101,19 @@ public class LogController {
         return Result.fail("失败");
     }
 
-//    public static void main(String[] args) {
-//        Map<String,Object> map = new HashMap<>();
-//        map.put("log-service.defaultLastLineSize",500);
-//        map.put("log-service.maxLogLineSize",1000);
-//        updateNacos(map);
-//    }
+    public static void main(String[] args) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("key.a",500);
+        map.put("key.b",1000);
+        map.put("key.c",500);
+        map.put("key.d.childe.z",1000);
+        String dataId = "fss-log.yml";
+        boolean update = YamlUtil.builder()
+                .logNacosProperties(null)
+                .dataId(dataId)
+                .groupId("dev")
+                .build()
+                .update(map);
+    }
 
 }

@@ -4,8 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zx.fss.account.Role;
 import com.zx.fss.account.User;
 import com.zx.fss.account.UserRole;
+import com.zx.fss.api.RequestParameter;
+import com.zx.fss.api.Result;
 import com.zx.fss.api.ResultCode;
+import com.zx.fss.business.Dir;
+import com.zx.fss.exception.BaseRuntimeException;
 import com.zx.fss.exception.ResultException;
+import com.zx.fss.feign.service.FssAccountService;
+import com.zx.fss.feign.service.FssBusinessService;
 import com.zx.fss.mapper.UserMapper;
 import com.zx.fss.service.RoleService;
 import com.zx.fss.service.UserRoleService;
@@ -36,6 +42,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     RoleService roleService;
 
+    @Autowired
+    FssBusinessService fssBusinessService;
+
+    @Autowired
+    FssAccountService fssAccountService;
+
     @Override
     public List<String> getRolesByUserId(Long userId) {
         return baseMapper.getRolesByUserId(userId);
@@ -64,6 +76,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             userRole.setRoleId(role.getRoleId());
             userRole.setUserId(user.getUserId());
             userRoleService.save(userRole);
+        }
+
+        //远程调用创建默认目录
+        RequestParameter<Dir> parameter = new RequestParameter<>();
+        Dir dir = new Dir();
+        dir.setUserId(user.getUserId());
+        dir.setName("默认文件夹");
+        parameter.setData(dir);
+        Result result = fssBusinessService.add(parameter);
+        if (result.getCode() != 200){
+            throw new RuntimeException("远程调用创建默认目录失败："+result.getMsg());
         }
     }
 }

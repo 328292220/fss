@@ -44,3 +44,7 @@ jdbc:
   port: 3306
   username: root
   password: root
+
+logging:
+  level:
+    com.zx.fss.service: DEBUG

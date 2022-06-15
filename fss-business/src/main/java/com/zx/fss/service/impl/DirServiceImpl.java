@@ -1,6 +1,7 @@
 package com.zx.fss.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zx.fss.account.User;
@@ -45,11 +46,23 @@ public class DirServiceImpl extends ServiceImpl<DirMapper, Dir> implements DirSe
     @Override
     @Transactional
     public void add(Dir dir) {
+        if(dir.getUserId() != null){
+            //注册调用该方法，设置当前user
+            User user = new User();
+            user.setUserId(dir.getUserId());
+            String userStr = JSONObject.toJSON(user).toString();
+            LoginUserHolder.setCurrentUser(userStr);
+        }
         //获取父目录
         Dir parentDir = getParentDir(dir.getParentId());
         //构建新目录
         Dir newDir = createNewDir(parentDir,dir);
         this.save(newDir);
+
+        if(dir.getUserId() != null){
+            //注册调用该方法，清空当前user
+            LoginUserHolder.clearCurrentUser();
+        }
     }
 
     @Override
@@ -99,7 +112,6 @@ public class DirServiceImpl extends ServiceImpl<DirMapper, Dir> implements DirSe
         LambdaQueryWrapper<File> wrapper = new LambdaQueryWrapper();
         wrapper.in(File::getDirId,dirIds);
         fileService.remove(wrapper);
-
     }
 
     @Override
@@ -167,7 +179,7 @@ public class DirServiceImpl extends ServiceImpl<DirMapper, Dir> implements DirSe
                 //没有父级，说明用户第一次创建文件夹，那么默认创建一个用户根目录（用户名命名）
                 dir = Dir.builder()
                         .userId(LoginUserHolder.getCurrentUser(User.class).getUserId())
-                        .name(currentUser.getUserName())
+                        .name("根目录")
                         .path("")
                         .build();
                 this.save(dir);

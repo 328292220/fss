@@ -70,15 +70,17 @@ public class CommonServiceImpl implements CommonService {
         User currentUser = LoginUserHolder.getCurrentUser();
         Integer id = (Integer) data.get("id");
         String type = (String) data.get("type");
+        File file = null;
         if("file".equalsIgnoreCase(type)){
-            File file = fileService.getById(id);
+            file = fileService.getById(id);
             if(file == null){
-                Result.fail("文件不存在");
+                //Result.fail("文件不存在");
             }
-            if(file.getUserId() != currentUser.getUserId()){
+            if(currentUser != null && file.getUserId() != currentUser.getUserId()){
                 Result.fail("没有权限");
             }
-            DownloadUtil.download(new java.io.File(file.getRealPath()));
+            //DownloadUtil.download(new java.io.File(file.getRealPath()));
+            DownloadUtil.download(file.getRealPath());
         }
 
         return null;
@@ -98,7 +100,5 @@ public class CommonServiceImpl implements CommonService {
         if(!CollectionUtils.isEmpty(data.getFileIds())){
             fileService.removeByIds(data.getFileIds());
         }
-
-
     }
 }
